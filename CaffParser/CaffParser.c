@@ -63,7 +63,7 @@ unsigned char *createBitmapInfoHeader(int height, int width)
    return infoHeader;
 }
 
-void generateBitmapImage(unsigned char *image, int height, int width, char *imageFileName)
+void generateBitmapImage(int height, int width, unsigned char image[height][width][3], char *imageFileName)
 {
    int widthInBytes = width * 3;
    unsigned char padding[3] = {0, 0, 0};
@@ -76,7 +76,11 @@ void generateBitmapImage(unsigned char *image, int height, int width, char *imag
    fwrite(infoHeader, 1, 40, imageFile);
    for (int i = 0; i < height; i++)
    {
-      fwrite(image + (i * widthInBytes), 3, width, imageFile);
+      for (int j = 0; j < width; j++) {
+         int y = height - (i + 1);
+         unsigned char rgb[3] = { image[y][j][2], image[y][j][1], image[y][j][0] };
+         fwrite(rgb, 1, 3, imageFile);
+      }
       fwrite(padding, 1, paddingSize, imageFile);
    }
    fclose(imageFile);
@@ -245,8 +249,15 @@ int readCaffAnimationBlock(FILE *file, int blocklen, int actual_ciff)
          tags[i] = ',';
    }
 
-   char content[content_size];
-   readBytesToCharArray(file, content, content_size);
+   int pixelDataBytes = width * 3;
+   unsigned char content[height][width][3];
+   for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+      fread(content[i][j], 1, 3, file);
+      current_pos += 3;
+      fseek(file, current_pos, SEEK_SET);
+      } 
+   }
 
    int id_length = (actual_ciff == 0 ? 1 : (int)(log10(actual_ciff) + 1));
    char filename[strlen(outPath) + strlen(caff_name) + 1 + id_length + strlen(".bmp")];
@@ -259,7 +270,7 @@ int readCaffAnimationBlock(FILE *file, int blocklen, int actual_ciff)
     * https://stackoverflow.com/questions/2654480/writing-bmp-image-in-pure-c-c-without-other-libraries
     * https://www.crysys.hu/downloads/vihima06/2020/CIFF.txt CIFF CONTENT része kell a függvényből
    */
-   generateBitmapImage(content, height, width, filename);
+   generateBitmapImage(height, width, content, filename);
 
    return 0;
 }
