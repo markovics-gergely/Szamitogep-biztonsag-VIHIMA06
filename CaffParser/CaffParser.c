@@ -14,6 +14,7 @@ char *outPath = "../caff_out/";
 int current_pos = 0;
 int max_pos;
 int num_of_ciffs;
+const int bytesPerPixel = 3;
 
 unsigned char *createBitmapFileHeader(int height, int stride)
 {
@@ -63,9 +64,9 @@ unsigned char *createBitmapInfoHeader(int height, int width)
    return infoHeader;
 }
 
-void generateBitmapImage(int height, int width, unsigned char image[height][width][3], char *imageFileName)
+void generateBitmapImage(int height, int width, unsigned char* image, char *imageFileName)
 {
-   int widthInBytes = width * 3;
+   int widthInBytes = width * bytesPerPixel;
    unsigned char padding[3] = {0, 0, 0};
    int paddingSize = (4 - (widthInBytes) % 4) % 4;
    int stride = (widthInBytes) + paddingSize;
@@ -74,11 +75,10 @@ void generateBitmapImage(int height, int width, unsigned char image[height][widt
    fwrite(fileHeader, 1, 14, imageFile);
    unsigned char *infoHeader = createBitmapInfoHeader(height, width);
    fwrite(infoHeader, 1, 40, imageFile);
-   for (int i = 0; i < height; i++)
-   {
+   for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
          int y = height - (i + 1);
-         unsigned char rgb[3] = { image[y][j][2], image[y][j][1], image[y][j][0] };
+         unsigned char rgb[3] = { image[y * widthInBytes + j * bytesPerPixel + 2], image[y * widthInBytes + j * bytesPerPixel + 1], image[y * widthInBytes + j * bytesPerPixel] };
          fwrite(rgb, 1, 3, imageFile);
       }
       fwrite(padding, 1, paddingSize, imageFile);
@@ -215,7 +215,7 @@ int readCaffAnimationBlock(FILE *file, int blocklen, int actual_ciff)
    int width = readBytesToInt(file, 8);
    int height = readBytesToInt(file, 8);
 
-   if (content_size != width * height * 3)
+   if (content_size != width * height * bytesPerPixel)
    {
       printf("Invalid CIFF content size!\n");
       return PARSE_ERROR;
@@ -249,15 +249,10 @@ int readCaffAnimationBlock(FILE *file, int blocklen, int actual_ciff)
          tags[i] = ',';
    }
 
-   int pixelDataBytes = width * 3;
-   unsigned char content[height][width][3];
-   for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-      fread(content[i][j], 1, 3, file);
-      current_pos += 3;
-      fseek(file, current_pos, SEEK_SET);
-      } 
-   }
+   unsigned char rawContent[content_size];
+   fread(rawContent, 1, content_size, file);
+   current_pos += content_size;
+   fseek(file, current_pos, SEEK_SET);
 
    int id_length = (actual_ciff == 0 ? 1 : (int)(log10(actual_ciff) + 1));
    char filename[strlen(outPath) + strlen(caff_name) + 1 + id_length + strlen(".bmp")];
@@ -265,12 +260,7 @@ int readCaffAnimationBlock(FILE *file, int blocklen, int actual_ciff)
 
    writeToCiffMeta(actual_ciff, id_length, dur_char, caption, tags);
 
-   /**
-    * TODO rendes kép, animáció?
-    * https://stackoverflow.com/questions/2654480/writing-bmp-image-in-pure-c-c-without-other-libraries
-    * https://www.crysys.hu/downloads/vihima06/2020/CIFF.txt CIFF CONTENT része kell a függvényből
-   */
-   generateBitmapImage(height, width, content, filename);
+   generateBitmapImage(height, width, rawContent, filename);
 
    return 0;
 }
