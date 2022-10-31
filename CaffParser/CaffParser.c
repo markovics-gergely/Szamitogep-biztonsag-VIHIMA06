@@ -64,7 +64,7 @@ unsigned char *createBitmapInfoHeader(int height, int width)
    return infoHeader;
 }
 
-void generateBitmapImage(int height, int width, unsigned char* image, char *imageFileName)
+int generateBitmapImage(int height, int width, unsigned char* image, char *imageFileName)
 {
    int widthInBytes = width * bytesPerPixel;
    unsigned char padding[3] = {0, 0, 0};
@@ -83,14 +83,20 @@ void generateBitmapImage(int height, int width, unsigned char* image, char *imag
       for (int j = 0; j < width; j++) {
          int x = j;
          int y = height - (i + 1);
-         pixelLine[x * 3] = image[y * widthInBytes + x * bytesPerPixel + 2];
-         pixelLine[x * 3 + 1] = image[y * widthInBytes + x * bytesPerPixel + 1];
-         pixelLine[x * 3 + 2] = image[y * widthInBytes + x * bytesPerPixel];
+         int blue = image[y * widthInBytes + x * bytesPerPixel + 2];
+         int green = image[y * widthInBytes + x * bytesPerPixel + 1];
+         int red = image[y * widthInBytes + x * bytesPerPixel];
+         if (blue < 0 || blue > 255 || red < 0 || red > 255 || blue < 0 || blue > 255)
+            return PARSE_ERROR;
+         pixelLine[x * 3] = blue;
+         pixelLine[x * 3 + 1] = green;
+         pixelLine[x * 3 + 2] = red;
       }
       fwrite(pixelLine, 1, widthInBytes, imageFile);
       fwrite(padding, 1, paddingSize, imageFile);
    }
    fclose(imageFile);
+   return 0;
 }
 
 int getIntFromArray(unsigned char *array, int size)
@@ -267,9 +273,9 @@ int readCaffAnimationBlock(FILE *file, int blocklen, int actual_ciff)
 
    writeToCiffMeta(actual_ciff, id_length, dur_char, caption, tags);
 
-   generateBitmapImage(height, width, rawContent, filename);
+   int result = generateBitmapImage(height, width, rawContent, filename);
 
-   return 0;
+   return result;
 }
 
 int readCaffBlock(FILE *file)
