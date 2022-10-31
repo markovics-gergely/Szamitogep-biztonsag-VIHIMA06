@@ -75,12 +75,19 @@ void generateBitmapImage(int height, int width, unsigned char* image, char *imag
    fwrite(fileHeader, 1, 14, imageFile);
    unsigned char *infoHeader = createBitmapInfoHeader(height, width);
    fwrite(infoHeader, 1, 40, imageFile);
+
+   // In BMP the 0,0 coordinate is at the bottom left, meaning we have to invert the y axis data from the CAFF file.
+   // Also instead of RGB, bmp uses BGR color definitions, hence the order swapping of the pixel color data.
+   unsigned char pixelLine[widthInBytes];
    for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
+         int x = j;
          int y = height - (i + 1);
-         unsigned char rgb[3] = { image[y * widthInBytes + j * bytesPerPixel + 2], image[y * widthInBytes + j * bytesPerPixel + 1], image[y * widthInBytes + j * bytesPerPixel] };
-         fwrite(rgb, 1, 3, imageFile);
+         pixelLine[x * 3] = image[y * widthInBytes + x * bytesPerPixel + 2];
+         pixelLine[x * 3 + 1] = image[y * widthInBytes + x * bytesPerPixel + 1];
+         pixelLine[x * 3 + 2] = image[y * widthInBytes + x * bytesPerPixel];
       }
+      fwrite(pixelLine, 1, widthInBytes, imageFile);
       fwrite(padding, 1, paddingSize, imageFile);
    }
    fclose(imageFile);
@@ -136,8 +143,8 @@ int readCaffHeaderBlock(FILE *file, int blocklen)
 
 void writeToCaffMeta(char *creator, char *date)
 {
-   char metapath[strlen(outPath) + strlen(caff_name) + strlen("_meta.txt")];
-   sprintf(metapath, "%s%s_meta.txt", outPath, caff_name);
+   char metapath[strlen(outPath) + strlen(caff_name) + strlen("_caff_meta.txt")];
+   sprintf(metapath, "%s%s_caff_meta.txt", outPath, caff_name);
    FILE *meta = fopen(metapath, "wb");
 
    fprintf(meta, "Creator=");
@@ -152,8 +159,8 @@ void writeToCaffMeta(char *creator, char *date)
 
 void writeToCiffMeta(int id, int id_length, char *duration, char *caption, char *tags)
 {
-   char metapath[strlen(outPath) + strlen(caff_name) + 1 + id_length + strlen("_meta.txt")];
-   sprintf(metapath, "%s%s_%d_meta.txt", outPath, caff_name, id);
+   char metapath[strlen(outPath) + strlen(caff_name) + 1 + id_length + strlen("_ciff_meta.txt")];
+   sprintf(metapath, "%s%s_%d_ciff_meta.txt", outPath, caff_name, id);
    FILE *meta = fopen(metapath, "wb");
 
    fprintf(meta, "Duration=");
