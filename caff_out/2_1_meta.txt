@@ -1,3 +1,0 @@
-Duration=1000
-Caption=Beautiful scenery
-Tags=landscape,sunset,mountains
