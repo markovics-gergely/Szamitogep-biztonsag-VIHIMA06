@@ -141,6 +141,11 @@ int readCaffHeaderBlock(FILE *file, int blocklen)
    }
 
    num_of_ciffs = readBytesToInt(file, 8);
+   if (num_of_ciffs < 1)
+   {
+      printf("Invalid ciff count!\n");
+      return PARSE_ERROR;
+   }
    return 0;
 }
 
@@ -179,6 +184,18 @@ void writeToCiffMeta(int id, int id_length, char *duration, char *caption, char 
    fclose(meta);
 }
 
+bool isValidDate(int YY, int MM, int DD, int hh, int mm) {
+   if(YY < 1900 || YY > 2100) return false;
+   if (MM < 1 || MM > 12) return false;
+   if (DD < 1) return false;
+   if (MM == 2 && (DD > 29 || (DD == 29 && (YY % 4 != 0 || (YY % 100 == 0 && YY % 400 != 0))))) return false;
+   if ((MM == 1 || MM == 3 || MM == 5 || MM == 7 || MM == 8 || MM == 10 || MM == 12) && DD > 31) return false;
+   if ((MM == 4 || MM == 6 || MM == 9 || MM == 11) && DD > 30) return false;
+   if (hh < 0 || hh > 23) return false;
+   if (mm < 0 || mm > 59) return false;
+   return true;
+}
+
 int readCaffCreditsBlock(FILE *file, int blocklen)
 {
    int year = readBytesToInt(file, 2);
@@ -189,9 +206,17 @@ int readCaffCreditsBlock(FILE *file, int blocklen)
    fseek(file, current_pos, SEEK_SET);
 
    char date[16 + 1];
+   if (!isValidDate(year, date_arr[0], date_arr[1], date_arr[2], date_arr[3])) {
+      printf("Invalid credit date!\n");
+      return PARSE_ERROR;
+   }
    sprintf(date, "%04d-%02d-%02d %02d:%02d\0", year, date_arr[0], date_arr[1], date_arr[2], date_arr[3]);
 
    int creator_length = readBytesToInt(file, 8);
+   if (creator_length == 0) {
+      printf("There is no creator stated!\n");
+      return PARSE_ERROR;
+   }
    char creator[creator_length + 1];
    readBytesToCharArray(file, creator, creator_length);
 
@@ -317,6 +342,11 @@ int readCaffBlock(FILE *file)
             printf("Animation read before header or credits block!\n");
             return PARSE_ERROR;
          }
+         if (actual_ciff > num_of_ciffs)
+         {
+            printf("Invalid ciff count!\n");
+            return PARSE_ERROR;
+         }
 
          isError = readCaffAnimationBlock(file, length, actual_ciff++);
          if (isError != 0)
@@ -326,6 +356,11 @@ int readCaffBlock(FILE *file)
          printf("Invalid block type!\n");
          return PARSE_ERROR;
       }
+   }
+   if (!headerRead || !creditsRead)
+   {
+      printf("Missing header or credits block!\n");
+      return PARSE_ERROR;
    }
    if (current_pos != max_pos)
    {

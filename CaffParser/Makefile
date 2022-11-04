@@ -1,14 +1,10 @@
-CC = gcc
-SRC = CaffParser.c
-OUT = CaffParser.dll
-OBJ = CaffParser.o
-INC= -I include
+CC=gcc
+OBJ=CaffParser.o
+OUT=CaffParser
+CFLAGS=-I.
 
-CaffParser:
-	$(CC) $(SRC) -o CaffParser
+%.o: %.c
+	$(CC) -c -o $@ $< $(CFLAGS)
 
-CaffParser.dll: CaffParser.o
-	$(CC) -shared -o $(OUT) $(OBJ) 
-
-CaffParser.o: $(SRC) 
-	$(CC) $(INC) -DBDLL -c $(SRC) -o $(OBJ)
+${OUT}: ${OBJ}
+	$(CC) -o ${OUT} $(OBJ)
