@@ -1,0 +1,55 @@
+<nav class="sidebar" [ngClass]="isOpen ? '' : 'close'">
+  <header>
+    <div class="image-text">
+      <a routerLink="/browse" class="image">
+        <i class="bx bx-image bx-tada-hover icon"></i>
+      </a>
+      <div class="text logo-text">
+        <span class="name">Ciff-Caff</span>
+        <span class="subname">Webshop</span>
+      </div>
+    </div>
+    <i
+      class="bx toggle"
+      [ngClass]="isOpen ? 'bx-chevron-right' : 'bx-chevron-left'"
+      (click)="switchOpen()"
+    ></i>
+  </header>
+  <div class="menu-bar">
+    <div class="menu">
+      <ul class="menu-links">
+        <li class="nav-link">
+          <a
+            routerLink="/browse"
+            [ngClass]="activeMenu === 'browse' ? 'active' : ''"
+          >
+            <i class="bx icon bx-search-alt bx-tada-hover"></i>
+            <span class="text nav-text">Browse</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="bottom-content">
+      <ul *ngIf="!authenticated">
+        <li class="nav-link">
+          <a routerLink="/register">
+            <i class="bx bx-user bx-tada-hover icon"></i>
+            <span class="text nav-text">Register</span>
+          </a>
+        </li>
+      </ul>
+      <ul>
+        <li class="nav-link">
+          <a routerLink="/login" (click)="logout()">
+            <i
+              class="bx bx-tada-hover icon"
+              [ngClass]="authenticated ? 'bx-log-out' : 'bx-log-in'"
+            ></i>
+            <span class="text nav-text" *ngIf="authenticated">Log out</span>
+            <span class="text nav-text" *ngIf="!authenticated">Log in</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
