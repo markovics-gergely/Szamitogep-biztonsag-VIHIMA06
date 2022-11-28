@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="main-container">
+    <div class="title-line">
+      <div class="title">Checkout cart</div>
+    </div>
+    <div *ngIf="caffs">
+      <div class="caff" *ngFor="let c of caffs" [routerLink]="['/checkout', c.id]">
+        <div class="image-container">
+          <img class="img-back" [src]="c.coverUrl" alt="cover" />
+          <img [src]="c.coverUrl" alt="cover" />
+        </div>
+        <div class="data-container">
+          <div class="card-item bottom-buttons">
+            <div class="caff-title">
+              {{ c.title }}
+            </div>
+            <div class="button-list">
+              <button mat-button matTooltip="Add to cart">
+                <i class="bx bx-cart-alt bx-tada-hover"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-pager
+        [itemCount]="total"
+        (changeEvent)="setPage($event)"
+      ></app-pager>
+    </div>
+  </div>
+</div>

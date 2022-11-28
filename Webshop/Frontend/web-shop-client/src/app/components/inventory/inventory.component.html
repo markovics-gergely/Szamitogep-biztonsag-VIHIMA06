@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="main-container">
+    <div class="title-line">
+      <div class="title">Inventory</div>
+    </div>
+    <div *ngIf="caffs">
+      <div class="caff" *ngFor="let c of caffs" [routerLink]="['/inventory', c.id]">
+        <div class="image-container">
+          <img class="img-back" [src]="c.coverUrl" alt="cover" />
+          <img [src]="c.coverUrl" alt="cover" />
+        </div>
+        <div class="data-container">
+          <div class="card-item bottom-buttons">
+            <div class="caff-title">
+              {{ c.title }}
+            </div>
+            <div class="button-list">
+              <button mat-button matTooltip="Download">
+                <i class="bx bx-download bx-tada-hover"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-pager
+        [itemCount]="total"
+        (changeEvent)="setPage($event)"
+      ></app-pager>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { CaffViewModel, PagerModel } from 'models';
 import { CaffService } from 'src/app/services/caff.service';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -9,14 +9,13 @@ import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-browse',
-  templateUrl: './browse.component.html',
-  styleUrls: ['./browse.component.scss'],
+  selector: 'app-checkout',
+  templateUrl: './checkout.component.html',
+  styleUrls: ['./checkout.component.scss'],
 })
-export class BrowseComponent implements OnInit {
+export class CheckoutComponent implements OnInit {
   private _caffs: CaffViewModel[] | undefined;
   private _total: number = 0;
-  private _searchForm: FormGroup | undefined;
 
   constructor(
     private caffService: CaffService,
@@ -35,24 +34,7 @@ export class BrowseComponent implements OnInit {
         this._caffs = data.values;
         this._total = data.total;
       })
-      .add(() => this.loadingService.isLoading = false);
-      this._searchForm = this.formBuilder.group({
-        search: new FormControl('')
-      });
-  }
-
-  search() {
-    this._total = 0;
-    this.loadingService.isLoading = true;
-    if (this._searchForm && this._searchForm.valid) {
-      this.caffService
-      .getCaffs(environment.default_page_size, environment.default_page, this._searchForm.get('search')?.value)
-      .subscribe((data) => {
-        this._caffs = data.values;
-        this._total = data.total;
-      })
-      .add(() => this.loadingService.isLoading = false);
-    }
+      .add(() => (this.loadingService.isLoading = false));
   }
 
   /**
@@ -61,34 +43,19 @@ export class BrowseComponent implements OnInit {
    */
   setPage(value: PagerModel) {
     this.loadingService.isLoading = true;
-    if (this._searchForm && this._searchForm.valid) {
-      this.caffService
-      .getCaffs(value.pageSize, value.page + 1, this._searchForm.get('search')?.value)
+    this.caffService
+      .getCaffs(value.pageSize, value.page + 1)
       .subscribe((data) => {
         this._caffs = data.values;
         this._total = data.total;
       })
-      .add(() => this.loadingService.isLoading = false);
-    }
-  }
-
-  /**
-   * Delete caff
-   * @param c Caff to delete
-   * @param event Selection event
-   */
-  deleteCaff(c: CaffViewModel | undefined, event: Event) {
-    event.stopImmediatePropagation();
-  }
-
-  isOwnCaff(c: CaffViewModel) {
-    return c.uploader?.id === this.userId;
+      .add(() => (this.loadingService.isLoading = false));
   }
 
   /**
    * Getter for user administrator status
    */
-   get isAdmin(): boolean {
+  get isAdmin(): boolean {
     return this.tokenService.role === 'Admin';
   }
   get caffs() {

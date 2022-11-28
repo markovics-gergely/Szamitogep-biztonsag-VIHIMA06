@@ -67,3 +67,17 @@ export interface ConfigViewModel {
     maxUploadSize: number;
     maxUploadCount: number;
 }
+
+export interface CaffViewModel {
+    id: string;
+    price: number;
+    title: string;
+    coverUrl: string;
+    uploader: UserNameViewModel;
+}
+
+export interface CreateCaffDTO {
+    title: string;
+    description: string;
+    caff: File;
+}
