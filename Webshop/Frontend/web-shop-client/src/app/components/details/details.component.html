@@ -1,1 +1,97 @@
-<p>details works!</p>
+<div class="container">
+  <div class="main-container">
+    <div class="title-line">
+      <div class="buttons">
+        <button mat-button matTooltip="Back to list" (click)="backToList()">
+          <i class="bx bx-arrow-back bx-tada-hover"></i>
+        </button>
+        <button
+          mat-button
+          matTooltip="Delete caff"
+          (click)="deleteCaff(caff, $event)"
+        >
+          <i class="bx bx-trash bx-tada-hover"></i>
+        </button>
+        <button
+          *ngIf="activeMenu === 'browse'"
+          mat-button
+          matTooltip="Download caff"
+          (click)="downloadCaff(caff, $event)"
+        >
+          <i class="bx bx-cart-alt bx-tada-hover"></i>
+        </button>
+        <button
+          *ngIf="activeMenu === 'inventory'"
+          mat-button
+          matTooltip="Download caff"
+          (click)="downloadCaff(caff, $event)"
+        >
+          <i class="bx bx-download bx-tada-hover"></i>
+        </button>
+        <button
+          mat-button
+          matTooltip="Edit caff"
+        >
+          <i class="bx bx-cog bx-spin-hover"></i>
+        </button>
+      </div>
+      <div class="title" style="margin-left: 10px" *ngIf="caff">
+        {{ caff.title }}
+      </div>
+    </div>
+    <div class="card" *ngIf="caff">
+      <div class="card-item">
+        <div class="title">Title</div>
+        <div class="value">
+          {{ caff.title }}
+        </div>
+      </div>
+      <div class="card-item">
+        <div class="title">Uploader</div>
+        <div class="value">
+          {{ caff.uploader.userName }}
+        </div>
+      </div>
+      <div class="card-item">
+        <div class="footer-text">{{ caff.description }}</div>
+      </div>
+    </div>
+    <div *ngIf="caff" class="image-container" (click)="preview(caff.coverUrl)">
+      <img class="img-back" [src]="caff.coverUrl" alt="cover" />
+      <img [src]="caff.coverUrl" alt="cover" />
+    </div>
+    <div class="sub-title">Comments</div>
+    <div *ngIf="comments" class="comment-container">
+      <div class="comment" *ngFor="let comment of comments">
+        <div class="user">{{ comment.userName }}</div>
+        <div class="text">{{ comment.text }}</div>
+      </div>
+    </div>
+    <form
+      method="post"
+      class="form-table"
+      [formGroup]="commentForm"
+      (ngSubmit)="onSubmit()"
+      *ngIf="commentForm"
+    >
+      <div class="input">
+        <label for="name">Comment</label>
+        <input
+          id="text"
+          type="text"
+          placeholder="Text"
+          formControlName="text"
+          required
+          minlength="4"
+        />
+      </div>
+      <button
+        [disabled]="!commentForm.valid"
+        mat-button
+        matTooltip="Send comment"
+      >
+        <i class="bx bx-send bx-tada-hover"></i>
+      </button>
+    </form>
+  </div>
+</div>

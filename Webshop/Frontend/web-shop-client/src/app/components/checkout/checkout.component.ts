@@ -53,6 +53,19 @@ export class CheckoutComponent implements OnInit {
   }
 
   /**
+   * Delete caff
+   * @param c Caff to delete
+   * @param event Selection event
+   */
+  deleteCaff(c: CaffViewModel | undefined, event: Event) {
+    event.stopImmediatePropagation();
+  }
+
+  isOwnCaff(c: CaffViewModel) {
+    return c.uploader?.id === this.userId;
+  }
+
+  /**
    * Getter for user administrator status
    */
   get isAdmin(): boolean {

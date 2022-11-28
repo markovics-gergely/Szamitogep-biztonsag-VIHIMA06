@@ -76,8 +76,22 @@ export interface CaffViewModel {
     uploader: UserNameViewModel;
 }
 
+export interface CaffDetailViewModel {
+    id: string;
+    price: number;
+    title: string;
+    description: string;
+    coverUrl: string;
+    uploader: UserNameViewModel;
+}
+
 export interface CreateCaffDTO {
     title: string;
     description: string;
     caff: File;
+}
+
+export interface CommentViewModel {
+    userName: string;
+    text: string;
 }

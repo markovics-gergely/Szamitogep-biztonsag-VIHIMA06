@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CaffViewModel, PagerList } from 'models';
+import { CaffDetailViewModel, CaffViewModel, CommentViewModel, PagerList } from 'models';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -54,5 +54,54 @@ export class CaffService {
         .set('PageSize', pageSize)
         .set('PageCount', pageCount),
     });
+  }
+
+  /**
+   * Send get request for caff details
+   * @returns Caff with detailed informations
+   */
+  public getCaff(caffId: string): Observable<CaffDetailViewModel> {
+    return of({
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "price": 0,
+      "title": "string",
+      "description": "string",
+      "coverUrl": "https://via.placeholder.com/300x300.png?text=Caff",
+      "uploader": {
+        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "userName": "string"
+      }
+    });
+    /** TODO mock */
+    return this.http.get<CaffDetailViewModel>(`${this._baseUrl}/${caffId}`);
+  }
+
+  public getComments(caffId: string): Observable<CommentViewModel[]> {
+    return of([
+      {
+        userName: "Admin",
+        text: "asdasdas"
+      },
+      {
+        userName: "Admin",
+        text: "asdasdas"
+      },
+      {
+        userName: "Admin",
+        text: "asdasdas"
+      },
+      {
+        userName: "Admin",
+        text: "asdasdas"
+      },
+      {
+        userName: "Admin",
+        text: "asdasdas"
+      },
+      {
+        userName: "Admin",
+        text: "asdasdas"
+      },
+    ]);
   }
 }

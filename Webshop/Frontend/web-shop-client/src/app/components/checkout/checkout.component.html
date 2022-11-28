@@ -4,7 +4,11 @@
       <div class="title">Checkout cart</div>
     </div>
     <div *ngIf="caffs">
-      <div class="caff" *ngFor="let c of caffs" [routerLink]="['/checkout', c.id]">
+      <div
+        class="caff"
+        *ngFor="let c of caffs"
+        [routerLink]="['/checkout', c.id]"
+      >
         <div class="image-container">
           <img class="img-back" [src]="c.coverUrl" alt="cover" />
           <img [src]="c.coverUrl" alt="cover" />
@@ -15,8 +19,13 @@
               {{ c.title }}
             </div>
             <div class="button-list">
-              <button mat-button matTooltip="Add to cart">
-                <i class="bx bx-cart-alt bx-tada-hover"></i>
+              <button
+                *ngIf="isOwnCaff(c) || isAdmin"
+                mat-button
+                matTooltip="Delete caff"
+                (click)="deleteCaff(c, $event)"
+              >
+                <i class="bx bx-trash bx-tada-hover"></i>
               </button>
             </div>
           </div>
