@@ -16,6 +16,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { JwtModule } from '@auth0/angular-jwt';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -24,6 +25,7 @@ import { DetailsComponent } from './components/details/details.component';
 import { InventoryComponent } from './components/inventory/inventory.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
+import { AddCaffComponent } from './add-caff/add-caff.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { ConfirmComponent } from './components/confirm/confirm.component';
     DetailsComponent,
     InventoryComponent,
     CheckoutComponent,
-    ConfirmComponent
+    ConfirmComponent,
+    AddCaffComponent
   ],
   imports: [
     BrowserModule,
@@ -47,20 +50,20 @@ import { ConfirmComponent } from './components/confirm/confirm.component';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    BrowserAnimationsModule,
     MatSnackBarModule,
+    NgbModule,
     MatBadgeModule,
     MatDialogModule,
     MatTooltipModule,
     MatCheckboxModule,
     JwtModule.forRoot({
-      config: { },
+      config: {},
     })
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor, 
+      useClass: AuthInterceptor,
       multi: true
     }
   ],

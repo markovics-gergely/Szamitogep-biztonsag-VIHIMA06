@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CaffDetailViewModel, CaffViewModel, CommentViewModel, PagerList } from 'models';
+import { CaffDetailViewModel, CaffViewModel, CommentCreateDTO, CommentViewModel, PagerList, RemoveCommentDTO } from 'models';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -25,7 +25,7 @@ export class CaffService {
     return of({
       values: [
         {
-          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa5",
           "price": 0,
           "title": "stringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstring",
           "coverUrl": "https://via.placeholder.com/300x300.png?text=Caff",
@@ -103,5 +103,52 @@ export class CaffService {
         text: "asdasdas"
       },
     ]);
+  }
+
+  public deleteCaff(id: string): Observable<any> {
+    return of(undefined);
+    // TODO mock
+    return this.http.delete(`${this._baseUrl}/${id}`);
+  }
+
+  public addToCart(id: string): Observable<any> {
+    return of(undefined);
+    // TODO mock
+    return this.http.post(`${this._baseUrl}/checkout/${id}`, {});
+  }
+
+  public downloadCaff(id: string): Observable<any> {
+    return of(undefined);
+    // TODO mock
+    return this.http.post(`${this._baseUrl}/download/${id}`, {});
+  }
+
+  public createComment(id: string, dto: CommentCreateDTO): Observable<any> {
+    return of(undefined);
+    // TODO mock
+    return this.http.post(`${this._baseUrl}/${id}/comments/add`, this.getFormData(dto));
+  }
+
+  public deleteComment(id: string, dto: RemoveCommentDTO): Observable<any> {
+    return of(undefined);
+    // TODO mock
+    return this.http.put(`${this._baseUrl}/${id}/comments/remove`, this.getFormData(dto));
+  }
+
+  public removeFromCart(id: string): Observable<any> {
+    return of(undefined);
+    // TODO mock
+  }
+
+  /**
+   * Generate form data from object
+   * @param obj Object to transform
+   * @returns FormData generated
+   */
+  private getFormData(obj: any): FormData {
+    return Object.keys(obj).reduce((formData, key) => {
+      formData.append(key, obj[key]);
+      return formData;
+    }, new FormData());
   }
 }

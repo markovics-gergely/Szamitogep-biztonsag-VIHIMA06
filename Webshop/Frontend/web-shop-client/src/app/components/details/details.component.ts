@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { CaffDetailViewModel, CommentViewModel } from 'models';
 import { CaffService } from 'src/app/services/caff.service';
+import { ConfirmService } from 'src/app/services/confirm.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { PreviewService } from 'src/app/services/preview.service';
 import { SnackService } from 'src/app/services/snack.service';
@@ -33,8 +34,9 @@ export class DetailsComponent implements OnInit {
     private tokenService: TokenService,
     private caffService: CaffService,
     private previewService: PreviewService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    private confirmService: ConfirmService
+  ) { }
 
   ngOnInit(): void {
     this.loadingService.isLoading = true;
@@ -54,10 +56,76 @@ export class DetailsComponent implements OnInit {
     });
   }
 
-  deleteCaff(caff: CaffDetailViewModel | undefined, event: Event) {}
+  deleteCaff(caff: CaffDetailViewModel | undefined, event: Event) {
+    this.confirmService.confirm('Delete caff', `Are you sure you want to delete ${caff?.title}?`)
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.caffService.deleteCaff(caff!.id)
+            .subscribe(() => {
+              this.snackService.openSnackBar('Successfully deleted caff!', 'OK');
+              this.router.navigate([`/${this.activeMenu}`]);
+            })
+            .add(() => this.loadingService.isLoading = false)
+        }
+      });
+  }
 
-  downloadCaff(caff: CaffDetailViewModel | undefined, event: Event) {}
-  onSubmit() {}
+  /**
+   * Remove caff
+   * @param c Caff to remove
+   * @param event Selection event
+   */
+  removeCaff(c: CaffDetailViewModel | undefined, event: Event) {
+    event.stopImmediatePropagation();
+    this.confirmService.confirm('Remove caff', `Are you sure you want to remove ${c?.title} from the cart?`)
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.caffService.removeFromCart(c!.id)
+            .subscribe(() => {
+              this.snackService.openSnackBar('Successfully removed caff!', 'OK');
+              this.router.navigate([`/${this.activeMenu}`]);
+            })
+            .add(() => this.loadingService.isLoading = false);
+        }
+      })
+  }
+
+  /**
+   * Add caff to cart
+   * @param c Caff to add
+   * @param event Selection event
+   */
+  addCaff(c: CaffDetailViewModel | undefined, event: Event) {
+    event.stopImmediatePropagation();
+    this.confirmService.confirm('Add caff', `Are you sure you want to add ${c?.title}?`)
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.caffService.addToCart(c!.id)
+            .subscribe(() => {
+              this.snackService.openSnackBar('Successfully added caff!', 'OK');
+            })
+            .add(() => this.loadingService.isLoading = false)
+        }
+      })
+  }
+
+  downloadCaff(caff: CaffDetailViewModel | undefined, event: Event) { }
+
+  onSubmit() {
+    if (this._commentForm && this._commentForm.valid) {
+      this.caffService.createComment(this._caff!.id, { text: this._commentForm.get('text')?.value })
+        .subscribe(() => {
+          this.userService.getProfile().subscribe((user) => {
+            this._comments?.push({
+              userName: user.userName,
+              text: this._commentForm?.get('text')?.value
+            });
+            this._commentForm?.reset();
+          });
+        })
+        .add(() => this.loadingService.isLoading = false);
+    }
+  }
 
   /**
    * Open preview page with the selected image

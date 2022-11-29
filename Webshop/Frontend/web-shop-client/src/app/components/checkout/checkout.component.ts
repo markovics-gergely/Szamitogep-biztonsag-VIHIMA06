@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { CaffViewModel, PagerModel } from 'models';
 import { CaffService } from 'src/app/services/caff.service';
+import { ConfirmService } from 'src/app/services/confirm.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { SnackService } from 'src/app/services/snack.service';
 import { TokenService } from 'src/app/services/token.service';
@@ -23,8 +23,8 @@ export class CheckoutComponent implements OnInit {
     private userService: UserService,
     private snackService: SnackService,
     private tokenService: TokenService,
-    private formBuilder: FormBuilder
-  ) {}
+    private confirmService: ConfirmService
+  ) { }
 
   ngOnInit(): void {
     this.loadingService.isLoading = true;
@@ -53,12 +53,45 @@ export class CheckoutComponent implements OnInit {
   }
 
   /**
-   * Delete caff
-   * @param c Caff to delete
+   * Remove caff
+   * @param c Caff to remove
    * @param event Selection event
    */
   deleteCaff(c: CaffViewModel | undefined, event: Event) {
     event.stopImmediatePropagation();
+    this.confirmService.confirm('Remove caff', `Are you sure you want to remove ${c?.title} from the cart?`)
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.caffService.removeFromCart(c!.id)
+            .subscribe(() => {
+              this.snackService.openSnackBar('Successfully removed caff!', 'OK');
+              this._total--;
+              this._caffs = this._caffs?.filter((caff) => caff.id !== c?.id);
+            })
+            .add(() => this.loadingService.isLoading = false);
+        }
+      })
+  }
+
+  /**
+   * Add caff to cart
+   * @param c Caff to add
+   * @param event Selection event
+   */
+  addCaff(c: CaffViewModel | undefined, event: Event) {
+    event.stopImmediatePropagation();
+    this.confirmService.confirm('Add caff', `Are you sure you want to add ${c?.title}?`)
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.caffService.addToCart(c!.id)
+            .subscribe(() => {
+              this.snackService.openSnackBar('Successfully added caff!', 'OK');
+              this._total--;
+              this._caffs = this._caffs?.filter((caff) => caff.id !== c?.id);
+            })
+            .add(() => this.loadingService.isLoading = false)
+        }
+      })
   }
 
   isOwnCaff(c: CaffViewModel) {

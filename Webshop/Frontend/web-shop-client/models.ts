@@ -95,3 +95,11 @@ export interface CommentViewModel {
     userName: string;
     text: string;
 }
+
+export interface CommentCreateDTO {
+    text: string;
+}
+
+export interface RemoveCommentDTO {
+    commentId: string;
+}

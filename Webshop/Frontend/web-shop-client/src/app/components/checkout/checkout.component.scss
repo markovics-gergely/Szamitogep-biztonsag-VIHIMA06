@@ -12,6 +12,11 @@
     color: var(--text-color);
     margin: 0;
   }
+
+  button {
+    background-color: var(--secondary-color);
+    filter: brightness(0.9);
+  }
 }
 
 .buttons {
@@ -186,6 +191,7 @@ button {
         cursor: auto;
       }
     }
+
     display: flex;
     align-items: flex-end;
   }

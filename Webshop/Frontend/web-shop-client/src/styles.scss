@@ -386,3 +386,5 @@ mat-datepicker-content {
 .mat-checkbox-checked.mat-accent .mat-checkbox-background {
   background-color: var(--primary-color) !important;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
