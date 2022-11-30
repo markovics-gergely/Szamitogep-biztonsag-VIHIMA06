@@ -9,11 +9,12 @@
 #define PARSE_ERROR 3
 
 char *caff_name;
-char *rootPath = "../caff_files/";
-char *outPath = "../caff_out/";
+char *in_path;
+char *out_path;
 int current_pos = 0;
 int max_pos;
 int num_of_ciffs;
+int caff_creator_len;
 const int bytesPerPixel = 3;
 
 unsigned char *createBitmapFileHeader(int height, int stride)
@@ -78,7 +79,7 @@ void generateBitmapImage(int height, int width, unsigned char* image, char *imag
 
    // In BMP the 0,0 coordinate is at the bottom left, meaning we have to invert the y axis data from the CAFF file.
    // Also instead of RGB, bmp uses BGR color definitions, hence the order swapping of the pixel color data.
-   unsigned char pixelLine[widthInBytes];
+   unsigned char* pixelLine = malloc(sizeof(unsigned char) * widthInBytes);
    for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
          int x = j;
@@ -93,6 +94,7 @@ void generateBitmapImage(int height, int width, unsigned char* image, char *imag
       fwrite(pixelLine, 1, widthInBytes, imageFile);
       fwrite(padding, 1, paddingSize, imageFile);
    }
+   free(pixelLine);
    fclose(imageFile);
 }
 
@@ -151,8 +153,8 @@ int readCaffHeaderBlock(FILE *file, int blocklen)
 
 void writeToCaffMeta(char *creator, char *date)
 {
-   char metapath[strlen(outPath) + strlen(caff_name) + strlen("_caff_meta.txt")];
-   sprintf(metapath, "%s%s_caff_meta.txt", outPath, caff_name);
+   char metapath[strlen(out_path) + strlen(caff_name) + strlen("_caff_meta.txt") + 1 + 1];
+   sprintf(metapath, "%s%s_caff_meta.txt", out_path, caff_name);
    FILE *meta = fopen(metapath, "wb");
 
    fprintf(meta, "Creator=");
@@ -167,8 +169,8 @@ void writeToCaffMeta(char *creator, char *date)
 
 void writeToCiffMeta(int id, int id_length, char *duration, char *caption, char *tags)
 {
-   char metapath[strlen(outPath) + strlen(caff_name) + 1 + id_length + strlen("_ciff_meta.txt")];
-   sprintf(metapath, "%s%s_%d_ciff_meta.txt", outPath, caff_name, id);
+   char metapath[strlen(out_path) + strlen(caff_name) + 1 + id_length + strlen("_ciff_meta.txt") + 1];
+   sprintf(metapath, "%s%s_%d_ciff_meta.txt", out_path, caff_name, id);
    FILE *meta = fopen(metapath, "wb");
 
    fprintf(meta, "Duration=");
@@ -225,6 +227,7 @@ int readCaffCreditsBlock(FILE *file, int blocklen)
       printf("Invalid credits block length!\n");
       return PARSE_ERROR;
    }
+
    writeToCaffMeta(creator, date);
    return 0;
 }
@@ -284,18 +287,19 @@ int readCaffAnimationBlock(FILE *file, int blocklen, int actual_ciff)
          tags[i] = ',';
    }
 
-   unsigned char rawContent[content_size];
+   unsigned char* rawContent = malloc(sizeof(unsigned char) * content_size);
    fread(rawContent, 1, content_size, file);
    current_pos += content_size;
    fseek(file, current_pos, SEEK_SET);
 
    int id_length = (actual_ciff == 0 ? 1 : (int)(log10(actual_ciff) + 1));
-   char filename[strlen(outPath) + strlen(caff_name) + 1 + id_length + strlen(".bmp")];
-   sprintf(filename, "%s%s_%d.bmp", outPath, caff_name, actual_ciff);
+   char filename[strlen(out_path) + strlen(caff_name) + 1 + id_length + strlen(".bmp") + 1];
+   sprintf(filename, "%s%s_%d.bmp", out_path, caff_name, actual_ciff);
 
    writeToCiffMeta(actual_ciff, id_length, dur_char, caption, tags);
 
    generateBitmapImage(height, width, rawContent, filename);
+   free(rawContent);
 
    return 0;
 }
@@ -376,21 +380,26 @@ int readCaffBlock(FILE *file)
    return 0;
 }
 
-int readCaff()
+void setPathVariables(char* inPath, char* caffName, char* outPath) {
+   in_path = inPath;
+   caff_name = caffName;
+   out_path = outPath;
+}
+
+__declspec(dllexport) int readCaff(char* inPath, char* caffName, char* outPath, int* ciffCount)
 {
+   setPathVariables(inPath, caffName, outPath);
    FILE *file;
+   int pathLength = strlen(in_path) + strlen(caff_name) + strlen(".caff");
+   char full_path[pathLength];
+   sprintf(full_path, "%s\\%s.caff", in_path, caff_name);
 
-   int pathLength = strlen(rootPath) + strlen(caff_name) + strlen(".caff");
-   char path[pathLength];
-   sprintf(path, "%s%s.caff", rootPath, caff_name);
-   file = fopen(path, "r");
-
+   file = fopen(full_path, "r");
    if (file == NULL)
    {
       printf("File not found");
       return FILE_ERROR;
    }
-
    fseek(file, 0, SEEK_END);
    max_pos = ftell(file);
    fseek(file, 0, SEEK_SET);
@@ -398,28 +407,6 @@ int readCaff()
    current_pos = 0;
    int result = readCaffBlock(file);
    fclose(file);
-
+   *ciffCount = num_of_ciffs;
    return result;
-}
-
-int main(int argc, char *argv[])
-{
-   if (argc == 2)
-   {
-      caff_name = malloc(sizeof(char) * (strlen(argv[1]) + 1));
-      strcpy(caff_name, argv[1]);
-      int result = readCaff();
-      free(caff_name);
-      return result;
-   }
-   else if (argc > 2)
-   {
-      printf("Too many arguments supplied.\n");
-      return ARG_ERROR;
-   }
-   else
-   {
-      printf("File path argument expected.\n");
-      return ARG_ERROR;
-   }
 }

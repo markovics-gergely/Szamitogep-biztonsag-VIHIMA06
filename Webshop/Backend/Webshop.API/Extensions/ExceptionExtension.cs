@@ -16,7 +16,7 @@ namespace Webshop.API.Extensions
         {
             services.AddProblemDetails(options =>
             {
-                options.IncludeExceptionDetails = (ctx, ex) => false;
+                options.IncludeExceptionDetails = (ctx, ex) => true;
                 options.Map<EntityNotFoundException>(
                 (ctx, ex) =>
                 {

@@ -17,5 +17,9 @@ namespace Webshop.DAL.Configurations.Interfaces
         string GetStaticFileRequestPath();
 
         string GetImagesSubdirectory();
+
+        string GetCaffsSubdirectory();
+
+        string GetCaffMetaSubdirectory();
     }
 }

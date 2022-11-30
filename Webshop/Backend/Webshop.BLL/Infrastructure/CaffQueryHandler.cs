@@ -29,7 +29,6 @@ namespace Webshop.BLL.Infrastructure
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private IValidator? _validator;
-        private const int _albumPictureCount = 9;
 
         public CaffQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -42,46 +41,75 @@ namespace Webshop.BLL.Infrastructure
             var caffEntity = _unitOfWork.CaffRepository.Get(
                 filter: x => x.Id == request.CaffId,
                 transform: x => x.AsNoTracking(),
-                includeProperties: string.Join(',', nameof(Caff.Uploader), nameof(Caff.Ciffs), nameof(Caff.Comments)))
+                includeProperties: string.Join(',', nameof(Caff.Uploader), nameof(Caff.Ciffs), nameof(Caff.Comments), nameof(Caff.BoughtBy)))
                 .FirstOrDefault();
             if (caffEntity == null)
             {
                 throw new EntityNotFoundException("Requested caff not found");
             }
 
-            var albumViewModel = _mapper.Map<CaffDetailsViewModel>(caffEntity);
-            return Task.FromResult(albumViewModel);
+            _validator = new OrCondition(
+                new AvailabilityValidator(caffEntity),
+                new OwnershipValidator(caffEntity, request.User)
+                );
+            if (!_validator.Validate())
+            {
+                throw new ValidationErrorException("Validation error occured");
+            }
+
+            var caffViewModel = _mapper.Map<CaffDetailsViewModel>(caffEntity);
+            return Task.FromResult(caffViewModel);
         }
 
         public Task<EnumerableWithTotalViewModel<CaffListViewModel>> Handle(GetCaffListQuery request, CancellationToken cancellationToken)
         {
-            var albumEntities = _unitOfWork.CaffRepository.Get(
-                filter: null,
-                transform: x => x.AsNoTracking()
+            var caffEntities = _unitOfWork.CaffRepository.Get(
+                filter: x => x.BoughtBy == null,
+                transform: x => x.AsNoTracking(),
+                includeProperties: string.Join(',', nameof(Caff.Uploader), nameof(Caff.Ciffs))
                 ).ToList();
 
-            var albumsViewModelWithCount = _mapper.Map<EnumerableWithTotalViewModel<CaffListViewModel>>(albumEntities);
-            albumsViewModelWithCount.Values = albumsViewModelWithCount.Values.Skip((request.Dto.PageCount - 1) * request.Dto.PageSize).Take(request.Dto.PageSize);
-            return Task.FromResult(albumsViewModelWithCount);
+            var caffViewModelWithCount = _mapper.Map<EnumerableWithTotalViewModel<CaffListViewModel>>(caffEntities);
+            caffViewModelWithCount.Values = caffViewModelWithCount.Values.Skip((request.Dto.PageCount - 1) * request.Dto.PageSize).Take(request.Dto.PageSize);
+            return Task.FromResult(caffViewModelWithCount);
         }
 
         public Task<EnumerableWithTotalViewModel<CaffListViewModel>> Handle(GetBoughtCaffsQuery request, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(request.User.GetUserIdFromJwt());
-            var albumEntities = _unitOfWork.UserRepository.Get(
+            var userEntity = _unitOfWork.UserRepository.Get(
                 filter: x => x.Id == userId,
                 transform: x => x.AsNoTracking(),
-                includeProperties: string.Join(',', $"{nameof(ApplicationUser.BoughtCaffs)}.{nameof(Caff)}", $"{nameof(ApplicationUser.BoughtCaffs)}.{nameof(Caff.Uploader)}")
-                ).First();
-
-            var albumsViewModelWithCount = _mapper.Map<EnumerableWithTotalViewModel<CaffListViewModel>>(albumEntities.BoughtCaffs);
-            albumsViewModelWithCount.Values = albumsViewModelWithCount.Values.Skip((request.Dto.PageCount - 1) * request.Dto.PageSize).Take(request.Dto.PageSize);
-            return Task.FromResult(albumsViewModelWithCount);
+                includeProperties: string.Join(',', $"{nameof(ApplicationUser.BoughtCaffs)}.{nameof(Caff.Ciffs)}", $"{nameof(ApplicationUser.BoughtCaffs)}.{nameof(Caff.Uploader)}")
+                ).FirstOrDefault();
+            if (userEntity == null)
+            {
+                throw new EntityNotFoundException("Requested caff not found");
+            }
+            var caffViewModelWithCount = _mapper.Map<EnumerableWithTotalViewModel<CaffListViewModel>>(userEntity.BoughtCaffs);
+            caffViewModelWithCount.Values = caffViewModelWithCount.Values.Skip((request.Dto.PageCount - 1) * request.Dto.PageSize).Take(request.Dto.PageSize);
+            return Task.FromResult(caffViewModelWithCount);
         }
 
-        public Task<byte[]> Handle(GetCaffDownloadQuery request, CancellationToken cancellationToken)
+        public async Task<byte[]> Handle(GetCaffDownloadQuery request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var caffEntity = _unitOfWork.CaffRepository.Get(
+                filter: x => x.Id == request.CaffId,
+                transform: x => x.AsNoTracking(),
+                includeProperties: nameof(Caff.BoughtBy)
+                ).FirstOrDefault();
+            if (caffEntity == null)
+            {
+                throw new EntityNotFoundException("Requested caff file not found");
+            }
+
+            _validator = new OwnershipValidator(caffEntity, request.User);
+            if (!_validator.Validate())
+            {
+                throw new ValidationErrorException("Validation error occured");
+            }
+
+            return await File.ReadAllBytesAsync(caffEntity.PhysicalPath, cancellationToken);
         }
     }
 }

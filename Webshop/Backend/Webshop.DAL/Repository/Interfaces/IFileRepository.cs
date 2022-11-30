@@ -9,7 +9,9 @@ namespace Webshop.DAL.Repository.Interfaces
 {
     public interface IFileRepository
     {
-        Ciff SaveFile(Guid userId, string tempFilePath, string extension);
+        string SaveFile(string tempFilePath, string extension, string relativeOutPath);
+
+        Caff ReadMetadata(string path, string caffName, int ciffCount);
 
         void DeleteFile(string filePath);
 

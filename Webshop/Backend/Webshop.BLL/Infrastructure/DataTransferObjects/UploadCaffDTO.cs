@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,6 @@ namespace Webshop.BLL.Infrastructure.DataTransferObjects
 
         public string Description { get; set; } = string.Empty;
 
-        public IEnumerable<IFormFile> Caffs { get; set; } = Enumerable.Empty<IFormFile>();
+        public IFormFile Caff { get; set; }
     }
 }
