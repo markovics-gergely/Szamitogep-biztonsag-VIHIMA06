@@ -43,7 +43,7 @@ namespace Webshop.BLL.Infrastructure
         private readonly IMapper _mapper;
         private IValidator? _validator;
 
-        [DllImport("C:\\Egyetem\\Biztonsag\\Szamitogep-biztonsag-VIHIMA06\\CaffParser\\CaffParser.dll", CharSet = CharSet.Ansi)]
+        [DllImport("CaffParser.dll", CharSet = CharSet.Ansi)]
         static extern int readCaff([In] StringBuilder inPath, [In] StringBuilder caffName, [In] StringBuilder outPath, [In, Out] ref int ciffCount);
 
         public CaffCommandHandler(
