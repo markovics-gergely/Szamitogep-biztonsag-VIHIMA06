@@ -63,8 +63,13 @@ namespace Webshop.BLL.Infrastructure
 
         public Task<EnumerableWithTotalViewModel<CaffListViewModel>> Handle(GetCaffListQuery request, CancellationToken cancellationToken)
         {
+            Expression<Func<Caff, bool>> filter = x => x.BoughtBy == null;
+            if (!string.IsNullOrEmpty(request.Dto.Search))
+            {
+                filter = x => x.BoughtBy == null && x.Title.Contains(request.Dto.Search);
+            }
             var caffEntities = _unitOfWork.CaffRepository.Get(
-                filter: x => x.BoughtBy == null,
+                filter: filter,
                 transform: x => x.AsNoTracking(),
                 includeProperties: string.Join(',', nameof(Caff.Uploader), nameof(Caff.Ciffs))
                 ).ToList();
