@@ -1,0 +1,128 @@
+<div class="container">
+  <div class="main-container">
+    <div class="title-line">
+      <div class="buttons">
+        <button mat-button matTooltip="Back to list" (click)="backToList()">
+          <i class="bx bx-arrow-back bx-tada-hover"></i>
+        </button>
+        <button
+          *ngIf="activeMenu === 'browse' && (isAdmin || ownCaff)"
+          mat-button
+          matTooltip="Delete caff"
+          (click)="deleteCaff(caff, $event)"
+        >
+          <i class="bx bx-trash bx-tada-hover"></i>
+        </button>
+        <button
+          *ngIf="activeMenu === 'browse'"
+          mat-button
+          matTooltip="Add caff"
+          (click)="addCaff(caff, $event)"
+        >
+          <i class="bx bx-cart-alt bx-tada-hover"></i>
+        </button>
+        <button
+          *ngIf="activeMenu === 'inventory'"
+          mat-button
+          matTooltip="Download caff"
+          (click)="downloadCaff($event)"
+        >
+          <i class="bx bx-download bx-tada-hover"></i>
+        </button>
+        <button
+          *ngIf="activeMenu === 'browse' && (isAdmin || ownCaff)"
+          mat-button
+          matTooltip="Edit caff"
+          (click)="editCaff($event)"
+        >
+          <i class="bx bx-cog bx-spin-hover"></i>
+        </button>
+      </div>
+      <div class="title" style="margin-left: 10px" *ngIf="caff">
+        {{ caff.title }}
+      </div>
+    </div>
+    <div class="card" *ngIf="caff">
+      <div class="card-item">
+        <div class="title">Title</div>
+        <div class="value">
+          {{ caff.title }}
+        </div>
+      </div>
+      <div class="card-item">
+        <div class="title">Uploader</div>
+        <div class="value">
+          {{ caff.uploader.userName }}
+        </div>
+      </div>
+      <div class="card-item">
+        <div class="title">Creator</div>
+        <div class="value">
+          {{ caff.creator }}
+        </div>
+      </div>
+      <div class="card-item">
+        <div class="title">Created at</div>
+        <div class="value">
+          {{ caff.creationDate | date : "YYYY.MM.dd hh:mm" }}
+        </div>
+      </div>
+      <div class="card-item">
+        <div class="footer-text">{{ caff.description }}</div>
+      </div>
+    </div>
+    <div class="images" *ngIf="actualCiff">
+      <div class="image-container" (click)="preview(actualCiff.displayUrl)">
+        <img [src]="actualCiff.displayUrl" class="img-back" alt="cover" />
+        <img [src]="actualCiff.displayUrl" alt="cover" />
+      </div>
+      <div class="data-container">
+        <div class="card-item">
+          <div class="caff-title">
+            {{ actualCiff.caption }}
+          </div>
+        </div>
+        <div class="card-item">
+          <div class="caff-title sub">
+            {{ actualCiff.tags.join(", ") }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-title">Comments</div>
+    <div *ngIf="comments" class="comment-container">
+      <div class="comment" *ngFor="let comment of comments">
+        <div class="user">{{ comment.commenter.userName }}</div>
+        <div class="text">{{ comment.text }}</div>
+      </div>
+    </div>
+    <form
+      method="post"
+      class="form-table"
+      [formGroup]="commentForm"
+      (ngSubmit)="addComment()"
+      *ngIf="activeMenu === 'browse' && commentForm"
+    >
+      <div class="input">
+        <label for="name">Comment</label>
+        <input
+          id="text"
+          type="text"
+          placeholder="Text"
+          formControlName="text"
+          required
+          minlength="4"
+        />
+      </div>
+      <button
+        [disabled]="!commentForm.valid"
+        mat-button
+        matTooltip="Send comment"
+        type="submit"
+      >
+        <i class="bx bx-send bx-tada-hover"></i>
+      </button>
+    </form>
+  </div>
+</div>
