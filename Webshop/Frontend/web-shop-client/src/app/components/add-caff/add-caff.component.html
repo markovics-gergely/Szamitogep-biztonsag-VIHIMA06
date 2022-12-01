@@ -8,6 +8,7 @@
   [formGroup]="form"
   (ngSubmit)="onSubmit()"
   *ngIf="form"
+  data-cy="add-form"
 >
   <label for="title">Title</label>
   <input
@@ -37,6 +38,7 @@
       >
         <i class="bx bx-upload"></i>
         <input
+          id="upload"
           #upload
           type="file"
           multiple
@@ -64,6 +66,7 @@
     <div class="button-list">
       <button class="list-button" mat-button (click)="exit()">Cancel</button>
       <button
+        id="submit"
         *ngIf="form.valid"
         type="submit"
         class="list-button"

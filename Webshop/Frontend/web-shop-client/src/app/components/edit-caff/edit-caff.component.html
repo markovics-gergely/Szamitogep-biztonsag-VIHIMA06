@@ -1,5 +1,5 @@
 <div class="card-item">
-  <span class="main-title">Create caff</span>
+  <span class="main-title">Edit caff</span>
   <button mat-button (click)="exit()"><i class="bx bx-x"></i></button>
 </div>
 <form
@@ -8,6 +8,7 @@
   [formGroup]="form"
   (ngSubmit)="onSubmit()"
   *ngIf="form"
+  data-cy="edit-form"
 >
   <label for="title">Title</label>
   <input
@@ -31,6 +32,7 @@
     <div class="button-list">
       <button class="list-button" mat-button (click)="exit()">Cancel</button>
       <button
+        id="submit"
         *ngIf="form.valid"
         type="submit"
         class="list-button"

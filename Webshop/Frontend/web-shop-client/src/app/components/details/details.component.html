@@ -2,7 +2,7 @@
   <div class="main-container">
     <div class="title-line">
       <div class="buttons">
-        <button mat-button matTooltip="Back to list" (click)="backToList()">
+        <button id="back" mat-button matTooltip="Back to list" (click)="backToList()">
           <i class="bx bx-arrow-back bx-tada-hover"></i>
         </button>
         <button
@@ -14,6 +14,7 @@
           <i class="bx bx-trash bx-tada-hover"></i>
         </button>
         <button
+          id="buy"
           *ngIf="activeMenu === 'browse'"
           mat-button
           matTooltip="Add caff"

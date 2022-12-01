@@ -2,7 +2,7 @@
   <div class="main-container">
     <div class="title-line">
       <div class="title">Browse Caffs</div>
-      <button mat-button matTooltip="Add caff" (click)="createCaff()">
+      <button mat-button matTooltip="Add caff" (click)="createCaff()" data-cy="add-button">
         Add
         <i class="bx bx-plus bx-tada-hover"></i>
       </button>
@@ -46,6 +46,7 @@
             </div>
             <div class="button-list">
               <button
+                id="delete"
                 *ngIf="isOwnCaff(c) || isAdmin"
                 mat-button
                 matTooltip="Delete caff"
@@ -61,6 +62,7 @@
                 <i class="bx bx-cart-alt bx-tada-hover"></i>
               </button>
               <button
+                id="edit"
                 *ngIf="isOwnCaff(c) || isAdmin"
                 mat-button
                 matTooltip="Edit caff"
