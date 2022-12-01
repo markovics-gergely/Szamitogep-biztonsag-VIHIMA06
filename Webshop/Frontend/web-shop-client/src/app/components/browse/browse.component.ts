@@ -62,21 +62,27 @@ export class BrowseComponent implements OnInit {
   }
 
   search() {
-    if (this._searchForm && this._searchForm.valid) {
-      this.loadingService.isLoading = true;
+    this.loadingService.isLoading = true;
+    const search = this._searchForm?.valid ? this._searchForm.get('search')?.value : undefined;
+
+    this.loadingService.isLoading = true;
       this._total = 0;
       this.caffService
         .getCaffs(
           environment.default_page_size,
           environment.default_page,
-          this._searchForm.get('search')?.value
+          search
         )
         .subscribe((data: PagerList<CaffViewModel>) => {
           this._caffs = data.values;
           this._total = data.total;
+          this._caffs.forEach((caff) => {
+            this.caffService
+              .getImage(caff.coverUrl)
+              .subscribe((url) => (caff.safeUrl = url));
+          });
         })
         .add(() => (this.loadingService.isLoading = false));
-    }
   }
 
   /**
@@ -84,20 +90,25 @@ export class BrowseComponent implements OnInit {
    * @param value Pager changed event
    */
   setPage(value: PagerModel) {
-    if (this._searchForm && this._searchForm.valid) {
-      this.loadingService.isLoading = true;
-      this.caffService
-        .getCaffs(
-          value.pageSize,
-          value.page + 1,
-          this._searchForm.get('search')?.value
-        )
-        .subscribe((data: PagerList<CaffViewModel>) => {
-          this._caffs = data.values;
-          this._total = data.total;
-        })
-        .add(() => (this.loadingService.isLoading = false));
-    }
+    this.loadingService.isLoading = true;
+    const search = this._searchForm?.valid ? this._searchForm.get('search')?.value : undefined;
+    
+    this.caffService
+    .getCaffs(
+      value.pageSize,
+      value.page + 1,
+      search
+    )
+    .subscribe((data: PagerList<CaffViewModel>) => {
+      this._caffs = data.values;
+      this._total = data.total;
+      this._caffs.forEach((caff) => {
+        this.caffService
+          .getImage(caff.coverUrl)
+          .subscribe((url) => (caff.safeUrl = url));
+      });
+    })
+    .add(() => (this.loadingService.isLoading = false));
   }
 
   /**

@@ -3,8 +3,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CaffDetailViewModel, CaffViewModel, EditCaffDTO } from 'models';
 import { CaffService } from 'src/app/services/caff.service';
-import { LoadingService } from 'src/app/services/loading.service';
-import { SnackService } from 'src/app/services/snack.service';
 
 @Component({
   selector: 'app-edit-caff',
@@ -18,8 +16,6 @@ export class EditCaffComponent implements OnInit {
     public dialogRef: MatDialogRef<EditCaffComponent>,
     @Inject(MAT_DIALOG_DATA) public data: CaffViewModel | CaffDetailViewModel,
     private formBuilder: FormBuilder,
-    private loadingService: LoadingService,
-    private snackService: SnackService,
     private caffService: CaffService
   ) { }
 

@@ -51,8 +51,18 @@ export class CaffService {
     return this.http.post(`${this._baseUrl}/checkout/${id}`, {});
   }
 
-  public downloadCaff(id: string): Observable<any> {
-    return this.http.post(`${this._baseUrl}/download/${id}`, {});
+  public downloadCaff(caff: CaffViewModel | CaffDetailViewModel) {
+    this.downloadFile(caff.id).subscribe((data) => {
+      const downloadURL = window.URL.createObjectURL(data);
+      const link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = `${caff.title}.caff`;
+      link.click();
+    });
+  }
+
+  private downloadFile(id: string): Observable<Blob> {
+    return this.http.get(`${this._baseUrl}/download/${id}`, { responseType: 'blob' });
   }
 
   public createComment(id: string, dto: CommentCreateDTO): Observable<any> {

@@ -24,7 +24,7 @@
               {{ c.title }}
             </div>
             <div class="button-list">
-              <button mat-button matTooltip="Download">
+              <button mat-button matTooltip="Download" (click)="downloadCaff(c, $event)">
                 <i class="bx bx-download bx-tada-hover"></i>
               </button>
             </div>

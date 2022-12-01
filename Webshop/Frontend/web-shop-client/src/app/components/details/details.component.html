@@ -5,7 +5,7 @@
         <button mat-button matTooltip="Back to list" (click)="backToList()">
           <i class="bx bx-arrow-back bx-tada-hover"></i>
         </button>
-        <button *ngIf="activeMenu === 'browse'" mat-button matTooltip="Delete caff" (click)="deleteCaff(caff, $event)">
+        <button *ngIf="activeMenu === 'browse' && (isAdmin || ownCaff)" mat-button matTooltip="Delete caff" (click)="deleteCaff(caff, $event)">
           <i class="bx bx-trash bx-tada-hover"></i>
         </button>
         <button *ngIf="activeMenu === 'browse'" mat-button matTooltip="Add caff"
@@ -13,10 +13,10 @@
           <i class="bx bx-cart-alt bx-tada-hover"></i>
         </button>
         <button *ngIf="activeMenu === 'inventory'" mat-button matTooltip="Download caff"
-          (click)="downloadCaff(caff, $event)">
+          (click)="downloadCaff($event)">
           <i class="bx bx-download bx-tada-hover"></i>
         </button>
-        <button mat-button matTooltip="Edit caff" (click)="editCaff($event)">
+        <button *ngIf="activeMenu === 'browse' && (isAdmin || ownCaff)" mat-button matTooltip="Edit caff" (click)="editCaff($event)">
           <i class="bx bx-cog bx-spin-hover"></i>
         </button>
       </div>
@@ -79,7 +79,7 @@
         <div class="text">{{ comment.text }}</div>
       </div>
     </div>
-    <form method="post" class="form-table" [formGroup]="commentForm" (ngSubmit)="addComment()" *ngIf="commentForm">
+    <form method="post" class="form-table" [formGroup]="commentForm" (ngSubmit)="addComment()" *ngIf="activeMenu === 'browse' && commentForm">
       <div class="input">
         <label for="name">Comment</label>
         <input id="text" type="text" placeholder="Text" formControlName="text" required minlength="4" />

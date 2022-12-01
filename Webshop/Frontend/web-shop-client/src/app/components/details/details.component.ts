@@ -8,7 +8,7 @@ import {
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CaffDetailViewModel, CommentViewModel, EditCaffDTO } from 'models';
+import { CaffDetailViewModel, CaffViewModel, CommentViewModel, EditCaffDTO } from 'models';
 import { CaffService } from 'src/app/services/caff.service';
 import { ConfirmService } from 'src/app/services/confirm.service';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -87,14 +87,13 @@ export class DetailsComponent implements OnInit {
         if (result) {
           this.caffService.addToCart(c!.id)
             .subscribe(() => {
+              this.router.navigate(['inventory', c?.id])
               this.snackService.openSnackBar('Successfully added caff!', 'OK');
             })
             .add(() => this.loadingService.isLoading = false)
         }
-      })
+      });
   }
-
-  downloadCaff(caff: CaffDetailViewModel | undefined, event: Event) { }
 
   addComment() {
     if (this._commentForm && this._commentForm.valid) {
@@ -151,12 +150,28 @@ export class DetailsComponent implements OnInit {
   backToList() {
     this.router.navigate([`/${this.activeMenu}`]);
   }
+
+  downloadCaff(event: Event) {
+    event.stopImmediatePropagation();
+    if (this._caff) {
+      this.caffService.downloadCaff(this._caff);
+    }
+  }
+
+  /**
+   * Getter for user administrator status
+   */
+  get isAdmin(): boolean {
+    return this.tokenService.role === 'Admin';
+  }
+
   /**
    * Get current active route
    */
   get activeMenu() {
     return this.router.url.slice(1).split('/')[0];
   }
+  get ownCaff() { return this.userService.actualUserId === this._caff?.uploader.id; }
   get caff() {
     return this._caff;
   }
