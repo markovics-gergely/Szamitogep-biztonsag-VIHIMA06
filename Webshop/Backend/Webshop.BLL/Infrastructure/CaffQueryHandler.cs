@@ -41,7 +41,7 @@ namespace Webshop.BLL.Infrastructure
             var caffEntity = _unitOfWork.CaffRepository.Get(
                 filter: x => x.Id == request.CaffId,
                 transform: x => x.AsNoTracking(),
-                includeProperties: string.Join(',', nameof(Caff.Uploader), nameof(Caff.Ciffs), nameof(Caff.Comments), nameof(Caff.BoughtBy)))
+                includeProperties: string.Join(',', nameof(Caff.Uploader), nameof(Caff.Ciffs), $"{nameof(Caff.Comments)}.{nameof(Comment.Commenter)}", nameof(Caff.BoughtBy)))
                 .FirstOrDefault();
             if (caffEntity == null)
             {
