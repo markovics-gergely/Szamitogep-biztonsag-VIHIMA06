@@ -1,29 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { CreateCaffDTO } from 'models';
-import { LoadingService } from '../../services/loading.service';
-import { SnackService } from '../../services/snack.service';
 
 @Component({
   selector: 'app-add-caff',
   templateUrl: './add-caff.component.html',
-  styleUrls: ['./add-caff.component.scss']
+  styleUrls: ['./add-caff.component.scss'],
 })
 export class AddCaffComponent implements OnInit {
   private _form: FormGroup | undefined;
 
   constructor(
     public dialogRef: MatDialogRef<AddCaffComponent>,
-    private formBuilder: FormBuilder,
-    private loadingService: LoadingService,
-    private snackService: SnackService
-  ) { }
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this._form = this.formBuilder.group({
-      title: new FormControl('', [Validators.required, Validators.minLength(4)]),
-      description: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      title: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+      ]),
+      description: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+      ]),
       caff: new FormControl(undefined, Validators.required),
     });
   }

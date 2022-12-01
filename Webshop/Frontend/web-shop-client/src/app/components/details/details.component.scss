@@ -200,80 +200,80 @@ button {
 }
 
 .comment-container {
-    margin: 20px;
-    width: calc(100% - 40px);
+  margin: 20px;
+  width: calc(100% - 40px);
 
-    .comment {
-        width: 100%;
-        color: var(--primary-color);
-        .user {
-            font-size: 12px;
-            margin-bottom: -5px;
-        }
-        .text {
-            font-size: 24px;
-        }
-        border-bottom: 1px dotted var(--primary-color);
-        margin-bottom: 20px;
+  .comment {
+    width: 100%;
+    color: var(--primary-color);
+    .user {
+      font-size: 12px;
+      margin-bottom: -5px;
     }
+    .text {
+      font-size: 24px;
+    }
+    border-bottom: 1px dotted var(--primary-color);
+    margin-bottom: 20px;
+  }
 }
 
 .form-table {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  padding-top: 0;
+  color: var(--primary-color);
+
+  label {
+    margin: 0;
+  }
+  .input {
     width: 100%;
-    height: auto;
+  }
+  button {
+    height: 50px;
+    margin-top: 25px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: 0;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: 400;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 20px;
-    padding-top: 0;
-    color: var(--primary-color);
+    justify-content: center;
 
-    label {
-      margin: 0;
-    }
-    .input {
-        width: 100%;
-    }
-    button {
-      height: 50px;
-      margin-top: 25px;
-      background-color: var(--primary-color);
-      color: var(--secondary-color);
-      border: 0;
-      border-radius: 10px;
-      font-size: 24px;
-      font-weight: 400;
-      display: flex;
-      justify-content: center;
-
-      &:disabled {
-        box-shadow: none;
-        opacity: 0.5;
-        cursor: auto;
-      }
-      
-      &:hover {
-        background-color: var(--accent-color-dark);
-        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-      }
-
-      &:active {
-        background-color: var(--accent-color-dark);
-      }
+    &:disabled {
+      box-shadow: none;
+      opacity: 0.5;
+      cursor: auto;
     }
 
-    input {
-      width: 100%;
-      height: 50px;
-      border-color: var(--text-color);
-      border-style: solid;
-      border-radius: 10px;
-      padding: 5px;
-      &:focus {
-        box-shadow: 0;
-        outline: none !important;
-        border: 2px solid var(--primary-color);
-      }
+    &:hover {
+      background-color: var(--accent-color-dark);
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+      background-color: var(--accent-color-dark);
     }
   }
+
+  input {
+    width: 100%;
+    height: 50px;
+    border-color: var(--text-color);
+    border-style: solid;
+    border-radius: 10px;
+    padding: 5px;
+    &:focus {
+      box-shadow: 0;
+      outline: none !important;
+      border: 2px solid var(--primary-color);
+    }
+  }
+}

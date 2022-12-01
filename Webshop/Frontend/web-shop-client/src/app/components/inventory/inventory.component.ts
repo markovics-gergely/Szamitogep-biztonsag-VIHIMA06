@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { CaffViewModel, PagerList, PagerModel } from 'models';
 import { CaffService } from 'src/app/services/caff.service';
 import { LoadingService } from 'src/app/services/loading.service';
-import { SnackService } from 'src/app/services/snack.service';
 import { TokenService } from 'src/app/services/token.service';
 import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
@@ -22,7 +26,6 @@ export class InventoryComponent implements OnInit {
     private caffService: CaffService,
     private loadingService: LoadingService,
     private userService: UserService,
-    private snackService: SnackService,
     private tokenService: TokenService,
     private formBuilder: FormBuilder
   ) {}
@@ -41,9 +44,9 @@ export class InventoryComponent implements OnInit {
         });
       })
       .add(() => (this.loadingService.isLoading = false));
-      this._searchForm = this.formBuilder.group({
-        search: new FormControl('', [Validators.required, Validators.min(4)]),
-      });
+    this._searchForm = this.formBuilder.group({
+      search: new FormControl('', [Validators.required, Validators.min(4)]),
+    });
   }
 
   search() {
@@ -93,7 +96,7 @@ export class InventoryComponent implements OnInit {
     event.stopImmediatePropagation();
     this.caffService.downloadCaff(c);
   }
-  
+
   /**
    * Getter for user administrator status
    */

@@ -3,17 +3,34 @@
     <div class="title-line">
       <div class="title">Inventory</div>
     </div>
-    <form method="post" class="form-table" [formGroup]="searchForm" (ngSubmit)="search()" *ngIf="searchForm">
+    <form
+      method="post"
+      class="form-table"
+      [formGroup]="searchForm"
+      (ngSubmit)="search()"
+      *ngIf="searchForm"
+    >
       <div class="input">
         <label for="name">Search</label>
-        <input id="search" type="text" placeholder="Text" formControlName="search" required minlength="4" />
+        <input
+          id="search"
+          type="text"
+          placeholder="Text"
+          formControlName="search"
+          required
+          minlength="4"
+        />
       </div>
       <button [disabled]="!searchForm.valid" mat-button matTooltip="Search">
         <i class="bx bx-search-alt bx-tada-hover"></i>
       </button>
     </form>
     <div *ngIf="caffs">
-      <div class="caff" *ngFor="let c of caffs" [routerLink]="['/inventory', c.id]">
+      <div
+        class="caff"
+        *ngFor="let c of caffs"
+        [routerLink]="['/inventory', c.id]"
+      >
         <div class="image-container">
           <img class="img-back" [src]="c.safeUrl" alt="cover" />
           <img [src]="c.safeUrl" alt="cover" />
@@ -24,7 +41,11 @@
               {{ c.title }}
             </div>
             <div class="button-list">
-              <button mat-button matTooltip="Download" (click)="downloadCaff(c, $event)">
+              <button
+                mat-button
+                matTooltip="Download"
+                (click)="downloadCaff(c, $event)"
+              >
                 <i class="bx bx-download bx-tada-hover"></i>
               </button>
             </div>

@@ -8,7 +8,10 @@ import {
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CaffDetailViewModel, CaffViewModel, CommentViewModel, EditCaffDTO } from 'models';
+import {
+  CaffDetailViewModel,
+  EditCaffDTO,
+} from 'models';
 import { CaffService } from 'src/app/services/caff.service';
 import { ConfirmService } from 'src/app/services/confirm.service';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -40,7 +43,7 @@ export class DetailsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private confirmService: ConfirmService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loadingService.isLoading = true;
@@ -51,11 +54,14 @@ export class DetailsComponent implements OnInit {
           .subscribe((caff) => {
             this._caff = caff;
             this._caff.ciffs.forEach((ciff) => {
-              this.getImage(ciff.displayUrl).subscribe((blob) => ciff.safeUrl = blob);
+              this.getImage(ciff.displayUrl).subscribe(
+                (blob) => (ciff.safeUrl = blob)
+              );
             });
             setTimeout(
-              () => this.setNextId(), 
-              this.ciffs && this.ciffs[this._actualId].duration);
+              () => this.setNextId(),
+              this.ciffs && this.ciffs[this._actualId].duration
+            );
           })
           .add(() => (this.loadingService.isLoading = false));
       }
@@ -66,15 +72,20 @@ export class DetailsComponent implements OnInit {
   }
 
   deleteCaff(caff: CaffDetailViewModel | undefined, event: Event) {
-    this.confirmService.confirm('Delete caff', `Are you sure you want to delete ${caff?.title}?`)
+    this.confirmService
+      .confirm('Delete caff', `Are you sure you want to delete ${caff?.title}?`)
       .subscribe((result: boolean) => {
         if (result) {
-          this.caffService.deleteCaff(caff!.id)
+          this.caffService
+            .deleteCaff(caff!.id)
             .subscribe(() => {
-              this.snackService.openSnackBar('Successfully deleted caff!', 'OK');
+              this.snackService.openSnackBar(
+                'Successfully deleted caff!',
+                'OK'
+              );
               this.router.navigate([`/${this.activeMenu}`]);
             })
-            .add(() => this.loadingService.isLoading = false)
+            .add(() => (this.loadingService.isLoading = false));
         }
       });
   }
@@ -86,32 +97,40 @@ export class DetailsComponent implements OnInit {
    */
   addCaff(c: CaffDetailViewModel | undefined, event: Event) {
     event.stopImmediatePropagation();
-    this.confirmService.confirm('Add caff', `Are you sure you want to add ${c?.title}?`)
+    this.confirmService
+      .confirm('Add caff', `Are you sure you want to add ${c?.title}?`)
       .subscribe((result: boolean) => {
         if (result) {
-          this.caffService.addToCart(c!.id)
+          this.caffService
+            .addToCart(c!.id)
             .subscribe(() => {
-              this.router.navigate(['inventory', c?.id])
+              this.router.navigate(['inventory', c?.id]);
               this.snackService.openSnackBar('Successfully added caff!', 'OK');
             })
-            .add(() => this.loadingService.isLoading = false)
+            .add(() => (this.loadingService.isLoading = false));
         }
       });
   }
 
   addComment() {
     if (this._commentForm && this._commentForm.valid) {
-      this.caffService.createComment(this._caff!.id, { text: this._commentForm.get('text')?.value })
+      this.caffService
+        .createComment(this._caff!.id, {
+          text: this._commentForm.get('text')?.value,
+        })
         .subscribe(() => {
           this.userService.getProfile().subscribe((user) => {
             this._caff?.comments?.push({
-              commenter: { userName: user.userName, id: this.userService.actualUserId },
-              text: this._commentForm?.get('text')?.value
+              commenter: {
+                userName: user.userName,
+                id: this.userService.actualUserId,
+              },
+              text: this._commentForm?.get('text')?.value,
             });
             this._commentForm?.reset();
           });
         })
-        .add(() => this.loadingService.isLoading = false);
+        .add(() => (this.loadingService.isLoading = false));
     }
   }
 
@@ -120,7 +139,7 @@ export class DetailsComponent implements OnInit {
     const dialogRef: MatDialogRef<EditCaffComponent, EditCaffDTO> =
       this.dialog.open(EditCaffComponent, {
         width: '60%',
-        data: this.caff
+        data: this.caff,
       });
     dialogRef.afterClosed().subscribe((result) => {
       if (result && this.caff) {
@@ -175,7 +194,9 @@ export class DetailsComponent implements OnInit {
   get activeMenu() {
     return this.router.url.slice(1).split('/')[0];
   }
-  get ownCaff() { return this.userService.actualUserId === this._caff?.uploader.id; }
+  get ownCaff() {
+    return this.userService.actualUserId === this._caff?.uploader.id;
+  }
   get caff() {
     return this._caff;
   }
@@ -185,13 +206,20 @@ export class DetailsComponent implements OnInit {
   get commentForm() {
     return this._commentForm;
   }
-  get token() { return this.tokenService.accessToken; }
-  get ciffs() { return this._caff?.ciffs; }
-  get actualCiff() { return this.ciffs && this.ciffs[this._actualId]; }
+  get token() {
+    return this.tokenService.accessToken;
+  }
+  get ciffs() {
+    return this._caff?.ciffs;
+  }
+  get actualCiff() {
+    return this.ciffs && this.ciffs[this._actualId];
+  }
 
   setNextId() {
     if (this.ciffs && this.ciffs.length) {
-      this._actualId = this._actualId >= this.ciffs.length - 1 ? 0 : this._actualId + 1;
+      this._actualId =
+        this._actualId >= this.ciffs.length - 1 ? 0 : this._actualId + 1;
       setTimeout(() => this.setNextId(), this.ciffs[this._actualId].duration);
     }
   }

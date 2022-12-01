@@ -2,22 +2,60 @@
   <span class="main-title">Create caff</span>
   <button mat-button (click)="exit()"><i class="bx bx-x"></i></button>
 </div>
-<form method="post" class="form-table" [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="form">
+<form
+  method="post"
+  class="form-table"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  *ngIf="form"
+>
   <label for="title">Title</label>
-  <input id="title" type="text" placeholder="Title" formControlName="title" required minlength="4" />
+  <input
+    id="title"
+    type="text"
+    placeholder="Title"
+    formControlName="title"
+    required
+    minlength="4"
+  />
   <label for="description">Description</label>
-  <input id="description" type="text" placeholder="Description" formControlName="description" required minlength="4" />
+  <input
+    id="description"
+    type="text"
+    placeholder="Description"
+    formControlName="description"
+    required
+    minlength="4"
+  />
   <div class="card-item dialog-bottom-buttons">
     <div class="button-list">
-      <button class="list-button" mat-button type="button" (click)="upload.click()">
+      <button
+        class="list-button"
+        mat-button
+        type="button"
+        (click)="upload.click()"
+      >
         <i class="bx bx-upload"></i>
-        <input #upload type="file" multiple class="dialog-input" tabindex="1" (change)="addCaff($event)" accept=".caff"
-          style="display: none" />
+        <input
+          #upload
+          type="file"
+          multiple
+          class="dialog-input"
+          tabindex="1"
+          (change)="addCaff($event)"
+          accept=".caff"
+          style="display: none"
+        />
       </button>
       <div class="name">
         {{ filename }}
       </div>
-      <button class="list-button" mat-button type="button" (click)="removeCaff()">
+      <button
+        class="list-button"
+        mat-button
+        type="button"
+        (click)="removeCaff()"
+      >
         <i class="bx bx-x"></i>
       </button>
     </div>
@@ -25,7 +63,14 @@
   <div class="card-item dialog-bottom-buttons">
     <div class="button-list">
       <button class="list-button" mat-button (click)="exit()">Cancel</button>
-      <button *ngIf="form.valid" type="submit" class="list-button" mat-button (click)="onSubmit()" autofocus>
+      <button
+        *ngIf="form.valid"
+        type="submit"
+        class="list-button"
+        mat-button
+        (click)="onSubmit()"
+        autofocus
+      >
         Save
       </button>
     </div>

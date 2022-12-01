@@ -148,10 +148,11 @@ export class UserService {
   public getInventory(
     pageSize: number,
     pageCount: number,
-    search?: string,
+    search?: string
   ): Observable<PagerList<CaffViewModel>> {
     return this.client.get<PagerList<CaffViewModel>>(
-      `${this.baseUrl}/inventory`, {
+      `${this.baseUrl}/inventory`,
+      {
         params: new HttpParams()
           .set('Search', search || '')
           .set('PageSize', pageSize)

@@ -7,17 +7,34 @@
         <i class="bx bx-plus bx-tada-hover"></i>
       </button>
     </div>
-    <form method="post" class="form-table" [formGroup]="searchForm" (ngSubmit)="search()" *ngIf="searchForm">
+    <form
+      method="post"
+      class="form-table"
+      [formGroup]="searchForm"
+      (ngSubmit)="search()"
+      *ngIf="searchForm"
+    >
       <div class="input">
         <label for="name">Search</label>
-        <input id="search" type="text" placeholder="Text" formControlName="search" required minlength="4" />
+        <input
+          id="search"
+          type="text"
+          placeholder="Text"
+          formControlName="search"
+          required
+          minlength="4"
+        />
       </div>
       <button [disabled]="!searchForm.valid" mat-button matTooltip="Search">
         <i class="bx bx-search-alt bx-tada-hover"></i>
       </button>
     </form>
     <div *ngIf="caffs" data-cy="caff-list">
-      <div class="caff" *ngFor="let c of caffs" [routerLink]="['/browse', c.id]">
+      <div
+        class="caff"
+        *ngFor="let c of caffs"
+        [routerLink]="['/browse', c.id]"
+      >
         <div class="image-container">
           <img class="img-back" [src]="c.safeUrl" alt="cover" />
           <img [src]="c.safeUrl" alt="cover" />
@@ -28,21 +45,37 @@
               {{ c.title }}
             </div>
             <div class="button-list">
-              <button *ngIf="isOwnCaff(c) || isAdmin" mat-button matTooltip="Delete caff"
-                (click)="deleteCaff(c, $event)">
+              <button
+                *ngIf="isOwnCaff(c) || isAdmin"
+                mat-button
+                matTooltip="Delete caff"
+                (click)="deleteCaff(c, $event)"
+              >
                 <i class="bx bx-trash bx-tada-hover"></i>
               </button>
-              <button mat-button matTooltip="Add to cart" (click)="addCaff(c, $event)">
+              <button
+                mat-button
+                matTooltip="Add to cart"
+                (click)="addCaff(c, $event)"
+              >
                 <i class="bx bx-cart-alt bx-tada-hover"></i>
               </button>
-              <button *ngIf="isOwnCaff(c) || isAdmin" mat-button matTooltip="Edit caff" (click)="editCaff(c, $event)">
+              <button
+                *ngIf="isOwnCaff(c) || isAdmin"
+                mat-button
+                matTooltip="Edit caff"
+                (click)="editCaff(c, $event)"
+              >
                 <i class="bx bx-cog bx-spin-hover"></i>
               </button>
             </div>
           </div>
         </div>
       </div>
-      <app-pager [itemCount]="total" (changeEvent)="setPage($event)"></app-pager>
+      <app-pager
+        [itemCount]="total"
+        (changeEvent)="setPage($event)"
+      ></app-pager>
     </div>
   </div>
 </div>

@@ -7,7 +7,13 @@ import {
 } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { CaffViewModel, CreateCaffDTO, EditCaffDTO, PagerList, PagerModel } from 'models';
+import {
+  CaffViewModel,
+  CreateCaffDTO,
+  EditCaffDTO,
+  PagerList,
+  PagerModel,
+} from 'models';
 import { AddCaffComponent } from 'src/app/components/add-caff/add-caff.component';
 import { CaffService } from 'src/app/services/caff.service';
 import { ConfirmService } from 'src/app/services/confirm.service';
@@ -63,26 +69,24 @@ export class BrowseComponent implements OnInit {
 
   search() {
     this.loadingService.isLoading = true;
-    const search = this._searchForm?.valid ? this._searchForm.get('search')?.value : undefined;
+    const search = this._searchForm?.valid
+      ? this._searchForm.get('search')?.value
+      : undefined;
 
     this.loadingService.isLoading = true;
-      this._total = 0;
-      this.caffService
-        .getCaffs(
-          environment.default_page_size,
-          environment.default_page,
-          search
-        )
-        .subscribe((data: PagerList<CaffViewModel>) => {
-          this._caffs = data.values;
-          this._total = data.total;
-          this._caffs.forEach((caff) => {
-            this.caffService
-              .getImage(caff.coverUrl)
-              .subscribe((url) => (caff.safeUrl = url));
-          });
-        })
-        .add(() => (this.loadingService.isLoading = false));
+    this._total = 0;
+    this.caffService
+      .getCaffs(environment.default_page_size, environment.default_page, search)
+      .subscribe((data: PagerList<CaffViewModel>) => {
+        this._caffs = data.values;
+        this._total = data.total;
+        this._caffs.forEach((caff) => {
+          this.caffService
+            .getImage(caff.coverUrl)
+            .subscribe((url) => (caff.safeUrl = url));
+        });
+      })
+      .add(() => (this.loadingService.isLoading = false));
   }
 
   /**
@@ -91,24 +95,22 @@ export class BrowseComponent implements OnInit {
    */
   setPage(value: PagerModel) {
     this.loadingService.isLoading = true;
-    const search = this._searchForm?.valid ? this._searchForm.get('search')?.value : undefined;
-    
+    const search = this._searchForm?.valid
+      ? this._searchForm.get('search')?.value
+      : undefined;
+
     this.caffService
-    .getCaffs(
-      value.pageSize,
-      value.page + 1,
-      search
-    )
-    .subscribe((data: PagerList<CaffViewModel>) => {
-      this._caffs = data.values;
-      this._total = data.total;
-      this._caffs.forEach((caff) => {
-        this.caffService
-          .getImage(caff.coverUrl)
-          .subscribe((url) => (caff.safeUrl = url));
-      });
-    })
-    .add(() => (this.loadingService.isLoading = false));
+      .getCaffs(value.pageSize, value.page + 1, search)
+      .subscribe((data: PagerList<CaffViewModel>) => {
+        this._caffs = data.values;
+        this._total = data.total;
+        this._caffs.forEach((caff) => {
+          this.caffService
+            .getImage(caff.coverUrl)
+            .subscribe((url) => (caff.safeUrl = url));
+        });
+      })
+      .add(() => (this.loadingService.isLoading = false));
   }
 
   /**
@@ -161,7 +163,7 @@ export class BrowseComponent implements OnInit {
     const dialogRef: MatDialogRef<EditCaffComponent, EditCaffDTO> =
       this.dialog.open(EditCaffComponent, {
         width: '60%',
-        data: caff
+        data: caff,
       });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
