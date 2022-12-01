@@ -126,11 +126,55 @@ button {
   }
 }
 
+.images {
+  max-height: 480px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  .data-container {
+    height: 80px;
+    width: calc(100% - 40px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--primary-color);
+    border-radius: 0 0 10px 10px;
+    margin-bottom: 20px;
+    .caff-title {
+      display: inline;
+      font-size: 18px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 400;
+      min-width: 100px;
+      width: 100%;
+      color: var(--primary-color);
+      padding: 0 10px;
+      &.sub {
+        color: var(--text-color);
+        font-size: 12px;
+      }
+    }
+    .card-item {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+  }
+}
+
 .image-container {
   width: calc(100% - 40px);
   max-height: 400px;
   position: relative;
-  margin: 20px;
   cursor: pointer;
 
   .img-back {
@@ -141,7 +185,6 @@ button {
     object-fit: fill;
     width: 100%;
     height: 100%;
-    border-radius: 20px;
     filter: blur(2px);
   }
 
@@ -152,7 +195,7 @@ button {
     width: 100%;
     height: 100%;
     max-height: 400px;
-    border-radius: 20px;
+    border-radius: 20px 20px 0 0;
   }
 }
 

@@ -8,9 +8,6 @@
         <button *ngIf="activeMenu === 'browse'" mat-button matTooltip="Delete caff" (click)="deleteCaff(caff, $event)">
           <i class="bx bx-trash bx-tada-hover"></i>
         </button>
-        <button *ngIf="activeMenu === 'checkout'" mat-button matTooltip="Remove caff" (click)="removeCaff(caff, $event)">
-          <i class="bx bx-trash bx-tada-hover"></i>
-        </button>
         <button *ngIf="activeMenu === 'browse'" mat-button matTooltip="Add caff"
           (click)="addCaff(caff, $event)">
           <i class="bx bx-cart-alt bx-tada-hover"></i>
@@ -41,21 +38,48 @@
         </div>
       </div>
       <div class="card-item">
+        <div class="title">Creator</div>
+        <div class="value">
+          {{ caff.creator }}
+        </div>
+      </div>
+      <div class="card-item">
+        <div class="title">Created at</div>
+        <div class="value">
+          {{ caff.creationDate | date: 'YYYY.MM.dd hh:mm' }}
+        </div>
+      </div>
+      <div class="card-item">
         <div class="footer-text">{{ caff.description }}</div>
       </div>
     </div>
-    <div *ngIf="caff" class="image-container" (click)="preview(caff.coverUrl)">
-      <img class="img-back" [src]="caff.coverUrl" alt="cover" />
-      <img [src]="caff.coverUrl" alt="cover" />
+    <div class="images" *ngFor="let ciff of ciffs">
+      <div class="image-container" (click)="preview(ciff.safeUrl!)">
+        <img [src]="ciff.safeUrl!" class="img-back" alt="cover" />
+        <img [src]="ciff.safeUrl!" alt="cover" />
+      </div>
+      <div class="data-container">
+        <div class="card-item">
+          <div class="caff-title">
+            {{ ciff.caption }}
+          </div>
+        </div>
+        <div class="card-item">
+          <div class="caff-title sub">
+            {{ ciff.tags.join(', ') }}
+          </div>
+        </div>
+      </div>
     </div>
+    
     <div class="sub-title">Comments</div>
     <div *ngIf="comments" class="comment-container">
       <div class="comment" *ngFor="let comment of comments">
-        <div class="user">{{ comment.userName }}</div>
+        <div class="user">{{ comment.commenter.userName }}</div>
         <div class="text">{{ comment.text }}</div>
       </div>
     </div>
-    <form method="post" class="form-table" [formGroup]="commentForm" (ngSubmit)="onSubmit()" *ngIf="commentForm">
+    <form method="post" class="form-table" [formGroup]="commentForm" (ngSubmit)="addComment()" *ngIf="commentForm">
       <div class="input">
         <label for="name">Comment</label>
         <input id="text" type="text" placeholder="Text" formControlName="text" required minlength="4" />

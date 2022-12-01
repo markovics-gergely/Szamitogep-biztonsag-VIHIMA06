@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CaffDetailViewModel, CommentViewModel } from 'models';
 import { CaffService } from 'src/app/services/caff.service';
@@ -22,7 +23,6 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class DetailsComponent implements OnInit {
   private _caff: CaffDetailViewModel | undefined;
-  private _comments: CommentViewModel[] | undefined;
   private _commentForm: FormGroup | undefined;
 
   constructor(
@@ -43,11 +43,13 @@ export class DetailsComponent implements OnInit {
     this.route.params.subscribe((params) => {
       if (params['id']) {
         this.caffService
-          .getComments(params['id'])
-          .subscribe((comments) => (this._comments = comments));
-        this.caffService
           .getCaff(params['id'])
-          .subscribe((caff) => (this._caff = caff))
+          .subscribe((caff) => {
+            (this._caff = caff);
+            this._caff.ciffs.forEach((ciff) => { 
+              this.getImage(ciff.displayUrl).subscribe((blob) => ciff.safeUrl = blob);
+            });
+          })
           .add(() => (this.loadingService.isLoading = false));
       }
     });
@@ -71,26 +73,6 @@ export class DetailsComponent implements OnInit {
   }
 
   /**
-   * Remove caff
-   * @param c Caff to remove
-   * @param event Selection event
-   */
-  removeCaff(c: CaffDetailViewModel | undefined, event: Event) {
-    event.stopImmediatePropagation();
-    this.confirmService.confirm('Remove caff', `Are you sure you want to remove ${c?.title} from the cart?`)
-      .subscribe((result: boolean) => {
-        if (result) {
-          this.caffService.removeFromCart(c!.id)
-            .subscribe(() => {
-              this.snackService.openSnackBar('Successfully removed caff!', 'OK');
-              this.router.navigate([`/${this.activeMenu}`]);
-            })
-            .add(() => this.loadingService.isLoading = false);
-        }
-      })
-  }
-
-  /**
    * Add caff to cart
    * @param c Caff to add
    * @param event Selection event
@@ -111,13 +93,13 @@ export class DetailsComponent implements OnInit {
 
   downloadCaff(caff: CaffDetailViewModel | undefined, event: Event) { }
 
-  onSubmit() {
+  addComment() {
     if (this._commentForm && this._commentForm.valid) {
       this.caffService.createComment(this._caff!.id, { text: this._commentForm.get('text')?.value })
         .subscribe(() => {
           this.userService.getProfile().subscribe((user) => {
-            this._comments?.push({
-              userName: user.userName,
+            this._caff?.comments?.push({
+              commenter: { userName: user.userName, id: this.userService.actualUserId },
               text: this._commentForm?.get('text')?.value
             });
             this._commentForm?.reset();
@@ -131,8 +113,12 @@ export class DetailsComponent implements OnInit {
    * Open preview page with the selected image
    * @param preview Url of selected image
    */
-  preview(preview: string) {
+  preview(preview: SafeUrl) {
     this.previewService.previewImage = preview;
+  }
+
+  getImage(url: string) {
+    return this.caffService.getImage(url);
   }
 
   backToList() {
@@ -148,9 +134,11 @@ export class DetailsComponent implements OnInit {
     return this._caff;
   }
   get comments() {
-    return this._comments;
+    return this._caff?.comments;
   }
   get commentForm() {
     return this._commentForm;
   }
+  get token() { return this.tokenService.accessToken; }
+  get ciffs() { return this._caff?.ciffs; }
 }

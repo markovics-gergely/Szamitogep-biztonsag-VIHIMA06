@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import {
@@ -8,6 +8,8 @@ import {
   FullProfileViewModel,
   EditUserRoleDTO,
   UserMiniViewModel,
+  CaffViewModel,
+  PagerList,
 } from 'models';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -137,6 +139,25 @@ export class UserService {
       );
     }
     return of();
+  }
+
+  /**
+   * Get invetory of the user logged in
+   * @returns List of caffs in inventory
+   */
+  public getInventory(
+    pageSize: number,
+    pageCount: number,
+    search?: string,
+  ): Observable<PagerList<CaffViewModel>> {
+    return this.client.get<PagerList<CaffViewModel>>(
+      `${this.baseUrl}/inventory`, {
+        params: new HttpParams()
+          .set('Search', search || '')
+          .set('PageSize', pageSize)
+          .set('PageCount', pageCount),
+      }
+    );
   }
 
   /**

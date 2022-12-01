@@ -190,3 +190,66 @@ button {
     align-items: flex-end;
   }
 }
+
+.form-table {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-top: 0;
+  color: var(--primary-color);
+
+  label {
+    margin: 0;
+  }
+
+  .input {
+    width: 100%;
+  }
+
+  button {
+    height: 50px;
+    margin-top: 25px;
+    margin-right: 0;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: 0;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+
+    &:disabled {
+      box-shadow: none;
+      opacity: 0.5;
+      cursor: auto;
+    }
+
+    &:hover {
+      background-color: var(--accent-color-dark);
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+      background-color: var(--accent-color-dark);
+    }
+  }
+
+  input {
+    width: 100%;
+    height: 50px;
+    border-color: var(--text-color);
+    border-style: solid;
+    border-radius: 10px;
+    padding: 5px;
+
+    &:focus {
+      box-shadow: 0;
+      outline: none !important;
+      border: 2px solid var(--primary-color);
+    }
+  }
+}

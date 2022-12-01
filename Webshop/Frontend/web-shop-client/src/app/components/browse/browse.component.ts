@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { CaffViewModel, CreateCaffDTO, PagerList, PagerModel } from 'models';
-import { AddCaffComponent } from 'src/app/add-caff/add-caff.component';
+import { AddCaffComponent } from 'src/app/components/add-caff/add-caff.component';
 import { CaffService } from 'src/app/services/caff.service';
 import { ConfirmService } from 'src/app/services/confirm.service';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -29,8 +35,9 @@ export class BrowseComponent implements OnInit {
     private tokenService: TokenService,
     private formBuilder: FormBuilder,
     private confirmService: ConfirmService,
-    private dialog: MatDialog
-  ) { }
+    private dialog: MatDialog,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadingService.isLoading = true;
@@ -39,12 +46,17 @@ export class BrowseComponent implements OnInit {
       .subscribe((data: PagerList<CaffViewModel>) => {
         this._caffs = data.values;
         this._total = data.total;
+        this._caffs.forEach((caff) => {
+          this.caffService
+            .getImage(caff.coverUrl)
+            .subscribe((url) => (caff.safeUrl = url));
+        });
       })
       .add(() => {
         this.loadingService.isLoading = false;
       });
     this._searchForm = this.formBuilder.group({
-      search: new FormControl('', [Validators.required, Validators.min(4)])
+      search: new FormControl('', [Validators.required, Validators.min(4)]),
     });
   }
 
@@ -53,12 +65,16 @@ export class BrowseComponent implements OnInit {
       this.loadingService.isLoading = true;
       this._total = 0;
       this.caffService
-        .getCaffs(environment.default_page_size, environment.default_page, this._searchForm.get('search')?.value)
+        .getCaffs(
+          environment.default_page_size,
+          environment.default_page,
+          this._searchForm.get('search')?.value
+        )
         .subscribe((data: PagerList<CaffViewModel>) => {
           this._caffs = data.values;
           this._total = data.total;
         })
-        .add(() => this.loadingService.isLoading = false);
+        .add(() => (this.loadingService.isLoading = false));
     }
   }
 
@@ -70,12 +86,16 @@ export class BrowseComponent implements OnInit {
     if (this._searchForm && this._searchForm.valid) {
       this.loadingService.isLoading = true;
       this.caffService
-        .getCaffs(value.pageSize, value.page + 1, this._searchForm.get('search')?.value)
+        .getCaffs(
+          value.pageSize,
+          value.page + 1,
+          this._searchForm.get('search')?.value
+        )
         .subscribe((data: PagerList<CaffViewModel>) => {
           this._caffs = data.values;
           this._total = data.total;
         })
-        .add(() => this.loadingService.isLoading = false);
+        .add(() => (this.loadingService.isLoading = false));
     }
   }
 
@@ -86,16 +106,21 @@ export class BrowseComponent implements OnInit {
    */
   deleteCaff(c: CaffViewModel | undefined, event: Event) {
     event.stopImmediatePropagation();
-    this.confirmService.confirm('Delete caff', `Are you sure you want to delete ${c?.title}?`)
+    this.confirmService
+      .confirm('Delete caff', `Are you sure you want to delete ${c?.title}?`)
       .subscribe((result: boolean) => {
         if (result) {
-          this.caffService.deleteCaff(c!.id)
+          this.caffService
+            .deleteCaff(c!.id)
             .subscribe(() => {
-              this.snackService.openSnackBar('Successfully deleted caff!', 'OK');
+              this.snackService.openSnackBar(
+                'Successfully deleted caff!',
+                'OK'
+              );
               this._total--;
               this._caffs = this._caffs?.filter((caff) => caff.id !== c?.id);
             })
-            .add(() => this.loadingService.isLoading = false)
+            .add(() => (this.loadingService.isLoading = false));
         }
       });
   }
@@ -103,11 +128,19 @@ export class BrowseComponent implements OnInit {
   createCaff() {
     const dialogRef: MatDialogRef<AddCaffComponent, CreateCaffDTO> =
       this.dialog.open(AddCaffComponent, {
-        width: '60%'
+        width: '60%',
       });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
-
+      if (result) {
+        this.loadingService.isLoading = true;
+        this.caffService
+          .createCaff(result)
+          .subscribe((result) => {
+            this.router.navigate(['browse', result]);
+            this.snackService.openSnackBar('Caff successfully created!', 'OK');
+          })
+          .add(() => (this.loadingService.isLoading = false));
+      }
     });
   }
 
@@ -118,18 +151,20 @@ export class BrowseComponent implements OnInit {
    */
   addCaff(c: CaffViewModel | undefined, event: Event) {
     event.stopImmediatePropagation();
-    this.confirmService.confirm('Add caff', `Are you sure you want to add ${c?.title}?`)
+    this.confirmService
+      .confirm('Add caff', `Are you sure you want to add ${c?.title}?`)
       .subscribe((result: boolean) => {
         if (result) {
-          this.caffService.addToCart(c!.id)
+          this.caffService
+            .addToCart(c!.id)
             .subscribe(() => {
               this.snackService.openSnackBar('Successfully added caff!', 'OK');
               this._total--;
               this._caffs = this._caffs?.filter((caff) => caff.id !== c?.id);
             })
-            .add(() => this.loadingService.isLoading = false)
+            .add(() => (this.loadingService.isLoading = false));
         }
-      })
+      });
   }
 
   isOwnCaff(c: CaffViewModel) {
@@ -151,5 +186,7 @@ export class BrowseComponent implements OnInit {
   get userId() {
     return this.userService.actualUserId;
   }
-  get searchForm() { return this._searchForm; }
+  get searchForm() {
+    return this._searchForm;
+  }
 }

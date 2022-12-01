@@ -3,11 +3,20 @@
     <div class="title-line">
       <div class="title">Inventory</div>
     </div>
+    <form method="post" class="form-table" [formGroup]="searchForm" (ngSubmit)="search()" *ngIf="searchForm">
+      <div class="input">
+        <label for="name">Search</label>
+        <input id="search" type="text" placeholder="Text" formControlName="search" required minlength="4" />
+      </div>
+      <button [disabled]="!searchForm.valid" mat-button matTooltip="Search">
+        <i class="bx bx-search-alt bx-tada-hover"></i>
+      </button>
+    </form>
     <div *ngIf="caffs">
       <div class="caff" *ngFor="let c of caffs" [routerLink]="['/inventory', c.id]">
         <div class="image-container">
-          <img class="img-back" [src]="c.coverUrl" alt="cover" />
-          <img [src]="c.coverUrl" alt="cover" />
+          <img class="img-back" [src]="c.safeUrl" alt="cover" />
+          <img [src]="c.safeUrl" alt="cover" />
         </div>
         <div class="data-container">
           <div class="card-item bottom-buttons">

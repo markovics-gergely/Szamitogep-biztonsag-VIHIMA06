@@ -23,9 +23,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DetailsComponent } from './components/details/details.component';
 import { InventoryComponent } from './components/inventory/inventory.component';
-import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
-import { AddCaffComponent } from './add-caff/add-caff.component';
+import { AddCaffComponent } from './components/add-caff/add-caff.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -39,7 +39,6 @@ import { AddCaffComponent } from './add-caff/add-caff.component';
     BrowseComponent,
     DetailsComponent,
     InventoryComponent,
-    CheckoutComponent,
     ConfirmComponent,
     AddCaffComponent
   ],
@@ -56,6 +55,7 @@ import { AddCaffComponent } from './add-caff/add-caff.component';
     MatDialogModule,
     MatTooltipModule,
     MatCheckboxModule,
+    CommonModule,
     JwtModule.forRoot({
       config: {},
     })
