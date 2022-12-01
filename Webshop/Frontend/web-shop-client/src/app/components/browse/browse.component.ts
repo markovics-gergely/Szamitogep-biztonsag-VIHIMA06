@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { CaffViewModel, CreateCaffDTO, PagerList, PagerModel } from 'models';
+import { CaffViewModel, CreateCaffDTO, EditCaffDTO, PagerList, PagerModel } from 'models';
 import { AddCaffComponent } from 'src/app/components/add-caff/add-caff.component';
 import { CaffService } from 'src/app/services/caff.service';
 import { ConfirmService } from 'src/app/services/confirm.service';
@@ -16,6 +16,7 @@ import { SnackService } from 'src/app/services/snack.service';
 import { TokenService } from 'src/app/services/token.service';
 import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
+import { EditCaffComponent } from '../edit-caff/edit-caff.component';
 
 @Component({
   selector: 'app-browse',
@@ -138,6 +139,27 @@ export class BrowseComponent implements OnInit {
           .subscribe((result) => {
             this.router.navigate(['browse', result]);
             this.snackService.openSnackBar('Caff successfully created!', 'OK');
+          })
+          .add(() => (this.loadingService.isLoading = false));
+      }
+    });
+  }
+
+  editCaff(caff: CaffViewModel, event: Event) {
+    event.stopImmediatePropagation();
+    const dialogRef: MatDialogRef<EditCaffComponent, EditCaffDTO> =
+      this.dialog.open(EditCaffComponent, {
+        width: '60%',
+        data: caff
+      });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadingService.isLoading = true;
+        this.caffService
+          .editCaff(caff.id, result)
+          .subscribe(() => {
+            caff.title = result.title;
+            this.snackService.openSnackBar('Caff successfully edited!', 'OK');
           })
           .add(() => (this.loadingService.isLoading = false));
       }

@@ -35,7 +35,7 @@
               <button mat-button matTooltip="Add to cart" (click)="addCaff(c, $event)">
                 <i class="bx bx-cart-alt bx-tada-hover"></i>
               </button>
-              <button *ngIf="isOwnCaff(c) || isAdmin" mat-button matTooltip="Edit caff">
+              <button *ngIf="isOwnCaff(c) || isAdmin" mat-button matTooltip="Edit caff" (click)="editCaff(c, $event)">
                 <i class="bx bx-cog bx-spin-hover"></i>
               </button>
             </div>

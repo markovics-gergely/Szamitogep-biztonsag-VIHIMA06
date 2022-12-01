@@ -26,6 +26,7 @@ import { InventoryComponent } from './components/inventory/inventory.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { AddCaffComponent } from './components/add-caff/add-caff.component';
 import { CommonModule } from '@angular/common';
+import { EditCaffComponent } from './components/edit-caff/edit-caff.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { CommonModule } from '@angular/common';
     DetailsComponent,
     InventoryComponent,
     ConfirmComponent,
-    AddCaffComponent
+    AddCaffComponent,
+    EditCaffComponent
   ],
   imports: [
     BrowserModule,

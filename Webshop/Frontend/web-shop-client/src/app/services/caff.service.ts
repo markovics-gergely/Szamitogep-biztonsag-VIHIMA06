@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { CaffDetailViewModel, CaffViewModel, CommentCreateDTO, CommentViewModel, CreateCaffDTO, PagerList, RemoveCommentDTO } from 'models';
+import { CaffDetailViewModel, CaffViewModel, CommentCreateDTO, CommentViewModel, CreateCaffDTO, EditCaffDTO, PagerList, RemoveCommentDTO } from 'models';
 import { map, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -65,6 +65,10 @@ export class CaffService {
 
   public createCaff(dto: CreateCaffDTO): Observable<string> {
     return this.http.post<string>(this._baseUrl, this.getFormData(dto));
+  }
+
+  public editCaff(id: string, dto: EditCaffDTO): Observable<any> {
+    return this.http.put(`${this._baseUrl}/${id}`, dto);
   }
 
   /**

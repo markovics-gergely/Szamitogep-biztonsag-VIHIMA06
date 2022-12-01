@@ -5,9 +5,10 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CaffDetailViewModel, CommentViewModel } from 'models';
+import { CaffDetailViewModel, CommentViewModel, EditCaffDTO } from 'models';
 import { CaffService } from 'src/app/services/caff.service';
 import { ConfirmService } from 'src/app/services/confirm.service';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -15,6 +16,7 @@ import { PreviewService } from 'src/app/services/preview.service';
 import { SnackService } from 'src/app/services/snack.service';
 import { TokenService } from 'src/app/services/token.service';
 import { UserService } from 'src/app/services/user.service';
+import { EditCaffComponent } from '../edit-caff/edit-caff.component';
 
 @Component({
   selector: 'app-details',
@@ -35,6 +37,7 @@ export class DetailsComponent implements OnInit {
     private caffService: CaffService,
     private previewService: PreviewService,
     private formBuilder: FormBuilder,
+    private dialog: MatDialog,
     private confirmService: ConfirmService
   ) { }
 
@@ -107,6 +110,30 @@ export class DetailsComponent implements OnInit {
         })
         .add(() => this.loadingService.isLoading = false);
     }
+  }
+
+  editCaff(event: Event) {
+    event.stopImmediatePropagation();
+    const dialogRef: MatDialogRef<EditCaffComponent, EditCaffDTO> =
+      this.dialog.open(EditCaffComponent, {
+        width: '60%',
+        data: this.caff
+      });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && this.caff) {
+        this.loadingService.isLoading = true;
+        this.caffService
+          .editCaff(this.caff.id, result)
+          .subscribe(() => {
+            if (this.caff) {
+              this.caff.title = result.title;
+              this.caff.description = result.description;
+            }
+            this.snackService.openSnackBar('Caff successfully edited!', 'OK');
+          })
+          .add(() => (this.loadingService.isLoading = false));
+      }
+    });
   }
 
   /**

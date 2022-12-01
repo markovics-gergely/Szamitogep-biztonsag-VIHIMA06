@@ -118,3 +118,8 @@ export interface CommentCreateDTO {
 export interface RemoveCommentDTO {
     commentId: string;
 }
+
+export interface EditCaffDTO {
+    title: string;
+    description: string;
+}
