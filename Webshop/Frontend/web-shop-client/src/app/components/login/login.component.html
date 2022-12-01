@@ -30,7 +30,7 @@
           required
           minlength="7"
         />
-        <button class="button" type="submit">Log in</button>
+        <button class="button" type="submit" [disabled]="!loginForm.valid">Log in</button>
       </form>
     </div>
   </div>

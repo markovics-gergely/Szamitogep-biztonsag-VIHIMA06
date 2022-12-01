@@ -91,6 +91,15 @@
           &:active {
             background-color: var(--accent-color-dark);
           }
+  
+          &:disabled {
+            opacity: 0.5;
+            box-shadow: none;
+            background-color: var(--primary-color);
+            cursor: auto;
+            transform: scale(1);
+            filter: brightness(100%);
+          }
         }
   
         input {

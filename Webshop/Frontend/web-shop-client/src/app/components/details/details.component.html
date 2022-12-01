@@ -53,20 +53,20 @@
         <div class="footer-text">{{ caff.description }}</div>
       </div>
     </div>
-    <div class="images" *ngFor="let ciff of ciffs">
-      <div class="image-container" (click)="preview(ciff.safeUrl!)">
-        <img [src]="ciff.safeUrl!" class="img-back" alt="cover" />
-        <img [src]="ciff.safeUrl!" alt="cover" />
+    <div class="images" *ngIf="actualCiff">
+      <div class="image-container" (click)="preview(actualCiff.safeUrl!)">
+        <img [src]="actualCiff.safeUrl!" class="img-back" alt="cover" />
+        <img [src]="actualCiff.safeUrl!" alt="cover" />
       </div>
       <div class="data-container">
         <div class="card-item">
           <div class="caff-title">
-            {{ ciff.caption }}
+            {{ actualCiff.caption }}
           </div>
         </div>
         <div class="card-item">
           <div class="caff-title sub">
-            {{ ciff.tags.join(', ') }}
+            {{ actualCiff.tags.join(', ') }}
           </div>
         </div>
       </div>

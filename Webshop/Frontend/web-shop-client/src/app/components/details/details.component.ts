@@ -26,6 +26,7 @@ import { EditCaffComponent } from '../edit-caff/edit-caff.component';
 export class DetailsComponent implements OnInit {
   private _caff: CaffDetailViewModel | undefined;
   private _commentForm: FormGroup | undefined;
+  private _actualId: number = 0;
 
   constructor(
     private router: Router,
@@ -48,10 +49,13 @@ export class DetailsComponent implements OnInit {
         this.caffService
           .getCaff(params['id'])
           .subscribe((caff) => {
-            (this._caff = caff);
-            this._caff.ciffs.forEach((ciff) => { 
+            this._caff = caff;
+            this._caff.ciffs.forEach((ciff) => {
               this.getImage(ciff.displayUrl).subscribe((blob) => ciff.safeUrl = blob);
             });
+            setTimeout(
+              () => this.setNextId(), 
+              this.ciffs && this.ciffs[this._actualId].duration);
           })
           .add(() => (this.loadingService.isLoading = false));
       }
@@ -183,4 +187,12 @@ export class DetailsComponent implements OnInit {
   }
   get token() { return this.tokenService.accessToken; }
   get ciffs() { return this._caff?.ciffs; }
+  get actualCiff() { return this.ciffs && this.ciffs[this._actualId]; }
+
+  setNextId() {
+    if (this.ciffs && this.ciffs.length) {
+      this._actualId = this._actualId >= this.ciffs.length - 1 ? 0 : this._actualId + 1;
+      setTimeout(() => this.setNextId(), this.ciffs[this._actualId].duration);
+    }
+  }
 }
