@@ -37,12 +37,6 @@ builder.Services.AddMediatR(typeof(Program).Assembly);
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddAuthorization(options =>
-{
-    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-        .RequireAuthenticatedUser()
-        .Build();
-});
 
 var app = builder.Build();
 
@@ -73,12 +67,6 @@ if (app.Environment.IsDevelopment())
     });
 }
 app.UseHttpsRedirection();
-
-app.UseRouting();
-app.UseCors("CorsPolicy");
-app.UseIdentityServer();
-app.UseAuthorization();
-
 var configService = app.Services.GetRequiredService<IWebshopConfigurationService>();
 app.UseWhen(
     context => !context.Request.Path.StartsWithSegments($"/{configService.GetStaticFileRequestPath()}/{configService.GetCaffsSubdirectory()}"),
@@ -88,6 +76,10 @@ app.UseWhen(
             FileProvider = new PhysicalFileProvider($"{configService.GetStaticFilePhysicalPath()}"),
             RequestPath = $"/{configService.GetStaticFileRequestPath()}"
         }));
+app.UseRouting();
+app.UseCors("CorsPolicy");
+app.UseIdentityServer();
+app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {

@@ -36,6 +36,8 @@ namespace Webshop.BLL.MappingProfiles
 
             CreateMap<Caff, CaffDetailsViewModel>();
 
+            CreateMap<Comment, CommentViewModel>();
+
             CreateMap<Ciff, CiffViewModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.DisplayUrl, opt => opt.ConvertUsing<PictureDisplayUrlConverter, Ciff>(src => src))
