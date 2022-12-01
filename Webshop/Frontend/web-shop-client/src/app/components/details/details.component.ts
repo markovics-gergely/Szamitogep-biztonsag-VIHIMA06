@@ -6,7 +6,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   CaffDetailViewModel,
@@ -53,11 +52,6 @@ export class DetailsComponent implements OnInit {
           .getCaff(params['id'])
           .subscribe((caff) => {
             this._caff = caff;
-            this._caff.ciffs.forEach((ciff) => {
-              this.getImage(ciff.displayUrl).subscribe(
-                (blob) => (ciff.safeUrl = blob)
-              );
-            });
             setTimeout(
               () => this.setNextId(),
               this.ciffs && this.ciffs[this._actualId].duration
@@ -162,12 +156,8 @@ export class DetailsComponent implements OnInit {
    * Open preview page with the selected image
    * @param preview Url of selected image
    */
-  preview(preview: SafeUrl) {
+  preview(preview: string) {
     this.previewService.previewImage = preview;
-  }
-
-  getImage(url: string) {
-    return this.caffService.getImage(url);
   }
 
   backToList() {

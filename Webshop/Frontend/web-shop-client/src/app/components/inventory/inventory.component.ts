@@ -37,11 +37,6 @@ export class InventoryComponent implements OnInit {
       .subscribe((data) => {
         this._caffs = data.values;
         this._total = data.total;
-        this._caffs.forEach((caff) => {
-          this.caffService
-            .getImage(caff.coverUrl)
-            .subscribe((url) => (caff.safeUrl = url));
-        });
       })
       .add(() => (this.loadingService.isLoading = false));
     this._searchForm = this.formBuilder.group({
@@ -62,11 +57,6 @@ export class InventoryComponent implements OnInit {
         .subscribe((data: PagerList<CaffViewModel>) => {
           this._caffs = data.values;
           this._total = data.total;
-          this._caffs.forEach((caff) => {
-            this.caffService
-              .getImage(caff.coverUrl)
-              .subscribe((url) => (caff.safeUrl = url));
-          });
         })
         .add(() => (this.loadingService.isLoading = false));
     }
@@ -83,11 +73,6 @@ export class InventoryComponent implements OnInit {
       .subscribe((data) => {
         this._caffs = data.values;
         this._total = data.total;
-        this._caffs.forEach((caff) => {
-          this.caffService
-            .getImage(caff.coverUrl)
-            .subscribe((url) => (caff.safeUrl = url));
-        });
       })
       .add(() => (this.loadingService.isLoading = false));
   }

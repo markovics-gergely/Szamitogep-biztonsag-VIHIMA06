@@ -1,6 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import {
   CaffDetailViewModel,
   CaffViewModel,
@@ -10,7 +9,7 @@ import {
   PagerList,
   RemoveCommentDTO,
 } from 'models';
-import { map, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -20,7 +19,7 @@ export class CaffService {
   /** Base url of caff endpoint */
   private _baseUrl = `${environment.baseUrl}/caff`;
 
-  constructor(private http: HttpClient, private domSanitizer: DomSanitizer) {}
+  constructor(private http: HttpClient) {}
 
   /**
    * Send get request for caffs for the browse page
@@ -45,16 +44,6 @@ export class CaffService {
    */
   public getCaff(caffId: string): Observable<CaffDetailViewModel> {
     return this.http.get<CaffDetailViewModel>(`${this._baseUrl}/${caffId}`);
-  }
-
-  public getImage(url: string): Observable<SafeUrl> {
-    return this.http
-      .get(url, { responseType: 'blob' })
-      .pipe(
-        map((e) =>
-          this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(e))
-        )
-      );
   }
 
   public deleteCaff(id: string): Observable<any> {

@@ -1,5 +1,3 @@
-import { SafeUrl } from "@angular/platform-browser";
-
 export interface LoginUserDTO {
     username: string;
     password: string;
@@ -76,7 +74,6 @@ export interface CaffViewModel {
     title: string;
     coverUrl: string;
     uploader: UserNameViewModel;
-    safeUrl?: SafeUrl;
 }
 
 export interface CiffViewModel {
@@ -85,7 +82,6 @@ export interface CiffViewModel {
     caption: string;
     duration: number;
     displayUrl: string;
-    safeUrl?: SafeUrl;
 }
 
 export interface CaffDetailViewModel {

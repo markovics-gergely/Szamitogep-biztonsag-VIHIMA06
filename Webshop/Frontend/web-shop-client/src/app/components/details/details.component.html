@@ -72,9 +72,9 @@
       </div>
     </div>
     <div class="images" *ngIf="actualCiff">
-      <div class="image-container" (click)="preview(actualCiff.safeUrl!)">
-        <img [src]="actualCiff.safeUrl!" class="img-back" alt="cover" />
-        <img [src]="actualCiff.safeUrl!" alt="cover" />
+      <div class="image-container" (click)="preview(actualCiff.displayUrl)">
+        <img [src]="actualCiff.displayUrl" class="img-back" alt="cover" />
+        <img [src]="actualCiff.displayUrl" alt="cover" />
       </div>
       <div class="data-container">
         <div class="card-item">

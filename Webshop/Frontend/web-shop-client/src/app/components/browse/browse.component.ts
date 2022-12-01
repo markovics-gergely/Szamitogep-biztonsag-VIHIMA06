@@ -53,11 +53,6 @@ export class BrowseComponent implements OnInit {
       .subscribe((data: PagerList<CaffViewModel>) => {
         this._caffs = data.values;
         this._total = data.total;
-        this._caffs.forEach((caff) => {
-          this.caffService
-            .getImage(caff.coverUrl)
-            .subscribe((url) => (caff.safeUrl = url));
-        });
       })
       .add(() => {
         this.loadingService.isLoading = false;
@@ -80,11 +75,6 @@ export class BrowseComponent implements OnInit {
       .subscribe((data: PagerList<CaffViewModel>) => {
         this._caffs = data.values;
         this._total = data.total;
-        this._caffs.forEach((caff) => {
-          this.caffService
-            .getImage(caff.coverUrl)
-            .subscribe((url) => (caff.safeUrl = url));
-        });
       })
       .add(() => (this.loadingService.isLoading = false));
   }
@@ -104,11 +94,6 @@ export class BrowseComponent implements OnInit {
       .subscribe((data: PagerList<CaffViewModel>) => {
         this._caffs = data.values;
         this._total = data.total;
-        this._caffs.forEach((caff) => {
-          this.caffService
-            .getImage(caff.coverUrl)
-            .subscribe((url) => (caff.safeUrl = url));
-        });
       })
       .add(() => (this.loadingService.isLoading = false));
   }
