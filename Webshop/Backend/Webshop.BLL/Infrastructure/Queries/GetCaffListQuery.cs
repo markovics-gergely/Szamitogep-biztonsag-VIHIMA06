@@ -16,11 +16,8 @@ namespace Webshop.BLL.Infrastructure.Queries
 
         public ClaimsPrincipal User { get; set; }
 
-        public Guid? UserId { get; set; }
-
-        public GetCaffListQuery(GetCaffsDTO dto, ClaimsPrincipal user, Guid? userId = null)
+        public GetCaffListQuery(GetCaffsDTO dto, ClaimsPrincipal user)
         {
-            UserId = userId;
             Dto = dto;
             User = user;
         }

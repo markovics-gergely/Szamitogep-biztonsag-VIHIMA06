@@ -21,7 +21,7 @@ namespace Webshop.BLL.MappingProfiles
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(x => 0))
-                .ForMember(dest => dest.Uploader, opt => opt.Ignore()) //ezt majd httpcontextből
+                .ForMember(dest => dest.Uploader, opt => opt.Ignore())
                 .ForMember(dest => dest.Ciffs, opt => opt.Ignore())
                 .ForMember(dest => dest.Creator, opt => opt.Ignore())
                 .ForMember(dest => dest.BoughtBy, opt => opt.Ignore())
@@ -38,7 +38,10 @@ namespace Webshop.BLL.MappingProfiles
 
             CreateMap<Ciff, CiffViewModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.DisplayUrl, opt => opt.ConvertUsing<PictureDisplayUrlConverter, Ciff>(src => src));
+                .ForMember(dest => dest.DisplayUrl, opt => opt.ConvertUsing<PictureDisplayUrlConverter, Ciff>(src => src))
+                .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => src.Duration))
+                .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.Tags.Split(',', StringSplitOptions.TrimEntries)))
+                .ForMember(dest => dest.Caption, opt => opt.MapFrom(src => src.Caption));
         }
     }
 }

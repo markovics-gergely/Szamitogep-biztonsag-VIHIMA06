@@ -13,9 +13,9 @@ namespace Webshop.BLL.Infrastructure.Queries
     {
         public Guid CaffId { get; set; }
 
-        public ClaimsPrincipal? User { get; set; }
+        public ClaimsPrincipal User { get; set; }
 
-        public GetCaffDetailsQuery(Guid caffId, ClaimsPrincipal? user = null)
+        public GetCaffDetailsQuery(Guid caffId, ClaimsPrincipal user)
         {
             CaffId = caffId;
             User = user;

@@ -15,6 +15,8 @@ namespace Webshop.DAL.Configurations.Implementations
         private readonly string _defaultContentPath;
         private const string _staticRequestPath = "files";
         private const string _imagesRelativePath = "images";
+        private const string _caffsRelativePath = "caffs"; 
+        private const string _caffMetaRelativePath = "caffs\\metadata";
 
         public WebshopConfigurationService(IOptions<WebshopConfiguration> options, IHostingEnvironment environment)
         {
@@ -46,6 +48,16 @@ namespace Webshop.DAL.Configurations.Implementations
         public string GetStaticFileRequestPath()
         {
             return _staticRequestPath;
+        }
+
+        public string GetCaffsSubdirectory()
+        {
+            return _caffsRelativePath;
+        }
+
+        public string GetCaffMetaSubdirectory()
+        {
+            return _caffMetaRelativePath;
         }
     }
 }

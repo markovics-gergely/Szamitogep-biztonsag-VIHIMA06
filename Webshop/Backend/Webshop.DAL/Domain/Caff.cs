@@ -22,10 +22,12 @@ namespace Webshop.DAL.Domain
 
         public int Price { get; set; }
 
+        public string PhysicalPath { get; set; } = string.Empty;
+
         public IList<Ciff> Ciffs { get; set; } = new List<Ciff>();
 
         public IList<Comment> Comments { get; set; } = new List<Comment>();
 
-        public ApplicationUser? BoughtBy { get; set; } = new ApplicationUser();
+        public ApplicationUser? BoughtBy { get; set; }
     }
 }

@@ -8,6 +8,9 @@ using IdentityServer4.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static System.Net.Mime.MediaTypeNames;
+using System.IO;
+using System.Net.Sockets;
 
 namespace Webshop.API.Controllers
 {
@@ -89,7 +92,7 @@ namespace Webshop.API.Controllers
         public async Task<IActionResult> DownloadCaff([FromRoute] Guid caffId, CancellationToken cancellationToken)
         {
             var command = new GetCaffDownloadQuery(caffId, HttpContext.User);
-            return Ok(await _mediator.Send(command, cancellationToken));
+            return File(await _mediator.Send(command, cancellationToken), "application/octet-stream", fileDownloadName: $"{DateTime.Now}.caff");
         }
 
         [HttpPut("{caffId}")]

@@ -8,6 +8,8 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -35,6 +37,12 @@ builder.Services.AddMediatR(typeof(Program).Assembly);
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+});
 
 var app = builder.Build();
 
@@ -64,20 +72,22 @@ if (app.Environment.IsDevelopment())
         options.OAuthUsePkce();
     });
 }
-
 app.UseHttpsRedirection();
-
-var configService = app.Services.GetRequiredService<IWebshopConfigurationService>(); 
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(configService.GetStaticFilePhysicalPath()),
-    RequestPath = $"/{configService.GetStaticFileRequestPath()}"
-});
 
 app.UseRouting();
 app.UseCors("CorsPolicy");
 app.UseIdentityServer();
 app.UseAuthorization();
+
+var configService = app.Services.GetRequiredService<IWebshopConfigurationService>();
+app.UseWhen(
+    context => !context.Request.Path.StartsWithSegments($"/{configService.GetStaticFileRequestPath()}/{configService.GetCaffsSubdirectory()}"),
+    appBuilder =>
+        appBuilder.UseStaticFiles(new StaticFileOptions
+        {
+            FileProvider = new PhysicalFileProvider($"{configService.GetStaticFilePhysicalPath()}"),
+            RequestPath = $"/{configService.GetStaticFileRequestPath()}"
+        }));
 
 app.UseEndpoints(endpoints =>
 {

@@ -13,5 +13,10 @@ namespace Webshop.BLL.Extensions
         {
             return claimsPrincipal.Claims.First(x => x.Type == "sub").Value;
         }
+
+        public static string GetUserRoleFromJwt(this ClaimsPrincipal claimsPrincipal)
+        {
+            return claimsPrincipal.Claims.First(x => x.Type == "role").Value;
+        }
     }
 }
