@@ -8,8 +8,11 @@ describe('testing browser', () => {
   beforeEach(() => {
     cy.login('Admin', '@Admin1234');
     cy.visit('/browse');
-    cy.get('#sizes').should('be.visible').select('100');
-    cy.wait(1000);
+    cy.get('body').then(($body) => {
+      if ($body.find('#sizes').length > 0) {
+        cy.get('#sizes').select('100', { force: true }).wait(1000);
+      }
+    });
   });
 
   it('create caff', () => {
@@ -24,6 +27,11 @@ describe('testing browser', () => {
     cy.get('#submit').click();
     cy.location('pathname').should('contain', '/browse/');
     cy.visit('/browse');
+    cy.get('body').then(($body) => {
+      if ($body.find('#sizes').length > 0) {
+        cy.get('#sizes').select('100', { force: true }).wait(1000);
+      }
+    });
     cy.get('.caff-title', { timeout: 15000 }).should('contain', testname);
   });
 
@@ -51,6 +59,11 @@ describe('testing browser', () => {
     cy.get('#submit').click();
     cy.wait(1000);
     cy.visit('/browse');
+    cy.get('body').then(($body) => {
+      if ($body.find('#sizes').length > 0) {
+        cy.get('#sizes').select('100', { force: true }).wait(1000);
+      }
+    });
     cy.get('.caff-title', { timeout: 15000 }).should('contain', testNewname);
   });
 
@@ -73,6 +86,11 @@ describe('testing browser', () => {
     cy.get('#submit').click();
     cy.location('pathname').should('contain', '/browse/');
     cy.visit('/browse');
+    cy.get('body').then(($body) => {
+      if ($body.find('#sizes').length > 0) {
+        cy.get('#sizes').select('100', { force: true }).wait(1000);
+      }
+    });
     cy.get('.caff-title', { timeout: 15000 }).should('contain', testBuyname);
   
     cy.get('[data-cy=caff-list] > .caff', { timeout: 15000 }).should('have.length.at.least', 1);
@@ -83,6 +101,11 @@ describe('testing browser', () => {
     cy.get('[data-cy=confirm-buttons]').find('#accept').should('be.visible').click();
     cy.location('pathname').should('contain', '/inventory/');
     cy.get('#back').click();
+    cy.get('body').then(($body) => {
+      if ($body.find('#sizes').length > 0) {
+        cy.get('#sizes').select('100', { force: true }).wait(1000);
+      }
+    });
     cy.get('.caff-title', { timeout: 15000 }).should('contain', testBuyname);
   });
 });
