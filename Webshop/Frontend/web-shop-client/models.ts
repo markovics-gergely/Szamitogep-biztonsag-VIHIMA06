@@ -103,6 +103,7 @@ export interface CreateCaffDTO {
 }
 
 export interface CommentViewModel {
+    id: string;
     commenter: UserNameViewModel;
     text: string;
 }

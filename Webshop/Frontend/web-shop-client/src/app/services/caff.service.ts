@@ -79,7 +79,7 @@ export class CaffService {
 
   public deleteComment(id: string, dto: RemoveCommentDTO): Observable<any> {
     return this.http.delete(`${this._baseUrl}/${id}/comments/remove`, {
-      body: this.getFormData(dto),
+      body: dto,
     });
   }
 

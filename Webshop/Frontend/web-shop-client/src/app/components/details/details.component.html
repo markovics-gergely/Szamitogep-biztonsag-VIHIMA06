@@ -2,7 +2,12 @@
   <div class="main-container">
     <div class="title-line">
       <div class="buttons">
-        <button id="back" mat-button matTooltip="Back to list" (click)="backToList()">
+        <button
+          id="back"
+          mat-button
+          matTooltip="Back to list"
+          (click)="backToList()"
+        >
           <i class="bx bx-arrow-back bx-tada-hover"></i>
         </button>
         <button
@@ -95,7 +100,14 @@
     <div *ngIf="comments" class="comment-container">
       <div class="comment" *ngFor="let comment of comments">
         <div class="user">{{ comment.commenter.userName }}</div>
-        <div class="text">{{ comment.text }}</div>
+        <div class="text">
+          {{ comment.text
+          }}<i
+            class="bx bx-trash bx-tada-hover"
+            *ngIf="activeMenu === 'browse' && (isAdmin || ownCaff)"
+            (click)="removeComment(comment, $event)"
+          ></i>
+        </div>
       </div>
     </div>
     <form

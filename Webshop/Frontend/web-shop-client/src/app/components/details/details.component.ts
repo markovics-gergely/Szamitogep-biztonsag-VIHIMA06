@@ -7,10 +7,7 @@ import {
 } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  CaffDetailViewModel,
-  EditCaffDTO,
-} from 'models';
+import { CaffDetailViewModel, CommentViewModel, EditCaffDTO } from 'models';
 import { CaffService } from 'src/app/services/caff.service';
 import { ConfirmService } from 'src/app/services/confirm.service';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -106,6 +103,35 @@ export class DetailsComponent implements OnInit {
       });
   }
 
+  /**
+   * Remove comment
+   * @param c Comment to remove
+   * @param event Selection event
+   */
+  removeComment(c: CommentViewModel, event: Event) {
+    event.stopImmediatePropagation();
+    this.confirmService
+      .confirm('Remove comment', `Are you sure you want to remove '${c.text}'?`)
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.caffService
+            .deleteComment(this._caff?.id || '', { commentId: c.id })
+            .subscribe(() => {
+              if (this._caff) {
+                this._caff.comments = this._caff?.comments.filter(
+                  (co) => co.id !== c.id
+                );
+              }
+              this.snackService.openSnackBar(
+                'Successfully removed comment!',
+                'OK'
+              );
+            })
+            .add(() => (this.loadingService.isLoading = false));
+        }
+      });
+  }
+
   addComment() {
     if (this._commentForm && this._commentForm.valid) {
       this.caffService
@@ -113,15 +139,11 @@ export class DetailsComponent implements OnInit {
           text: this._commentForm.get('text')?.value,
         })
         .subscribe(() => {
-          this.userService.getProfile().subscribe((user) => {
-            this._caff?.comments?.push({
-              commenter: {
-                userName: user.userName,
-                id: this.userService.actualUserId,
-              },
-              text: this._commentForm?.get('text')?.value,
-            });
-            this._commentForm?.reset();
+          this._commentForm?.reset();
+          this.caffService.getCaff(this._caff?.id || '').subscribe((c) => {
+            if (this._caff) {
+              this._caff.comments = c.comments;
+            }
           });
         })
         .add(() => (this.loadingService.isLoading = false));
@@ -169,6 +191,10 @@ export class DetailsComponent implements OnInit {
     if (this._caff) {
       this.caffService.downloadCaff(this._caff);
     }
+  }
+
+  ownComment(c: CommentViewModel) {
+    return this.userService.actualUserId === c.commenter.id;
   }
 
   /**
