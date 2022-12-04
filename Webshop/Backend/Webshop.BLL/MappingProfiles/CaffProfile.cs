@@ -17,7 +17,7 @@ namespace Webshop.BLL.MappingProfiles
     {
         public CaffProfile() 
         {
-            CreateMap<UploadCaffDTO, Caff>()
+            CreateMap<UploadCaffDto, Caff>()
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(x => 0))

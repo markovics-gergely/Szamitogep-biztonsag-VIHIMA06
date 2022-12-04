@@ -1,6 +1,6 @@
 ﻿namespace Webshop.BLL.Infrastructure.DataTransferObjects
 {
-    public class RegisterUserDTO
+    public class RegisterUserDto
     {
         public string UserName { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;

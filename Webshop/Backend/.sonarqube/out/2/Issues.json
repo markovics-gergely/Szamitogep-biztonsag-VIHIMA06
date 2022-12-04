@@ -1,0 +1,204 @@
+{
+  "$schema": "http://json.schemastore.org/sarif-1.0.0",
+  "version": "1.0.0",
+  "runs": [
+    {
+      "tool": {
+        "name": "Microsoft (R) Visual C# Compiler",
+        "version": "4.4.0.0",
+        "fileVersion": "4.4.0-4.22520.11 (9e075f03)",
+        "semanticVersion": "4.4.0",
+        "language": "hu-HU"
+      },
+      "results": [
+        {
+          "ruleId": "CS8604",
+          "level": "warning",
+          "message": "Possible null reference argument for parameter 'user' in 'Task<IdentityResult> UserManager<ApplicationUser>.CreateAsync(ApplicationUser user, string password)'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.API/Extensions/RoleSeedExtension.cs",
+                "region": {
+                  "startLine": 46,
+                  "startColumn": 81,
+                  "endLine": 46,
+                  "endColumn": 97
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS4014",
+          "level": "warning",
+          "message": "Because this call is not awaited, execution of the current method continues before the call is completed. Consider applying the 'await' operator to the result of the call.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.API/Program.cs",
+                "region": {
+                  "startLine": 93,
+                  "startColumn": 1,
+                  "endLine": 93,
+                  "endColumn": 59
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S3459",
+          "level": "warning",
+          "message": "Remove unassigned auto-property 'UserDTO', or set its value.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.API/Extensions/RoleSeedExtension.cs",
+                "region": {
+                  "startLine": 14,
+                  "startColumn": 37,
+                  "endLine": 14,
+                  "endColumn": 44
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S3260",
+          "level": "warning",
+          "message": "Private classes or records which are not derived in the current assembly should be marked as 'sealed'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.API/Extensions/RoleSeedExtension.cs",
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 23,
+                  "endLine": 12,
+                  "endColumn": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1144",
+          "level": "warning",
+          "message": "Remove the unused private set accessor in property 'UserDTO'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.API/Extensions/RoleSeedExtension.cs",
+                "region": {
+                  "startLine": 14,
+                  "startColumn": 52,
+                  "endLine": 14,
+                  "endColumn": 56
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        }
+      ],
+      "rules": {
+        "CS4014": {
+          "id": "CS4014",
+          "shortDescription": "Because this call is not awaited, execution of the current method continues before the call is completed",
+          "fullDescription": "The current method calls an async method that returns a Task or a Task<TResult> and doesn't apply the await operator to the result. The call to the async method starts an asynchronous task. However, because no await operator is applied, the program continues without waiting for the task to complete. In most cases, that behavior isn't what you expect. Usually other aspects of the calling method depend on the results of the call or, minimally, the called method is expected to complete before you return from the method that contains the call.\u000d\u000a\u000d\u000aAn equally important issue is what happens to exceptions that are raised in the called async method. An exception that's raised in a method that returns a Task or Task<TResult> is stored in the returned task. If you don't await the task or explicitly check for exceptions, the exception is lost. If you await the task, its exception is rethrown.\u000d\u000a\u000d\u000aAs a best practice, you should always await the call.\u000d\u000a\u000d\u000aYou should consider suppressing the warning only if you're sure that you don't want to wait for the asynchronous call to complete and that the called method won't raise any exceptions. In that case, you can suppress the warning by assigning the task result of the call to a variable.",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS4014)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "CS8604": {
+          "id": "CS8604",
+          "shortDescription": "Possible null reference argument.",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8604)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "S1144": {
+          "id": "S1144",
+          "shortDescription": "Unused private types or members should be removed",
+          "fullDescription": "private or internal types or private members that are never executed or referenced are dead code: unnecessary, inoperative code that should be removed. Cleaning out dead code decreases the size of the maintained codebase, making it easier to understand the program and preventing bugs from being introduced.",
+          "defaultLevel": "note",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-1144",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "TestSourceScope",
+              "SonarWay",
+              "Unnecessary"
+            ]
+          }
+        },
+        "S3260": {
+          "id": "S3260",
+          "shortDescription": "Non-derived \"private\" classes and records should be \"sealed\"",
+          "fullDescription": "private classes and records aren’t visible outside of their assemblies anyway, so if they’re not extended inside the assemblies, they should be made explicitly non-extensible with the addition of the sealed keyword.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-3260",
+          "properties": {
+            "category": "Minor Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S3459": {
+          "id": "S3459",
+          "shortDescription": "Unassigned members should be removed",
+          "fullDescription": "Fields and auto-properties that are never assigned to hold the default values for their types. They are either pointless code or, more likely, mistakes.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-3459",
+          "properties": {
+            "category": "Minor Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "TestSourceScope",
+              "SonarWay"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

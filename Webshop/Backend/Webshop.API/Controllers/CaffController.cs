@@ -31,7 +31,7 @@ namespace Webshop.API.Controllers
 
         [HttpGet]
         public async Task<ActionResult<EnumerableWithTotalViewModel<CaffListViewModel>>> GetCaffList(
-            [FromQuery] GetCaffsDTO dto,
+            [FromQuery] GetCaffsDto dto,
             CancellationToken cancellationToken)
         {
             var query = new GetCaffListQuery(dto, User);
@@ -50,7 +50,7 @@ namespace Webshop.API.Controllers
         [HttpPost("{caffId}/comments/add")]
         public async Task<IActionResult> PostComment(
             [FromRoute] Guid caffId,
-            [FromForm] PostCommentDTO dto,
+            [FromForm] PostCommentDto dto,
             CancellationToken cancellationToken)
         {
             var command = new PostCommentCommand(caffId, User, dto);
@@ -60,7 +60,7 @@ namespace Webshop.API.Controllers
         [HttpDelete("{caffId}/comments/remove")]
         public async Task<IActionResult> DeleteComment(
             [FromRoute] Guid caffId,
-            [FromBody] RemoveCommentDTO dto,
+            [FromBody] RemoveCommentDto dto,
             CancellationToken cancellationToken)
         {
             var command = new RemoveCommentCommand(caffId, User, dto);
@@ -68,7 +68,7 @@ namespace Webshop.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Guid>> UploadCaff([FromForm] UploadCaffDTO dto, CancellationToken cancellationToken)
+        public async Task<ActionResult<Guid>> UploadCaff([FromForm] UploadCaffDto dto, CancellationToken cancellationToken)
         {
             var command = new UploadCaffCommand(dto, HttpContext.User);
             return Ok(await _mediator.Send(command, cancellationToken));
@@ -96,7 +96,7 @@ namespace Webshop.API.Controllers
         }
 
         [HttpPut("{caffId}")]
-        public async Task<IActionResult> EditCaffData([FromRoute] Guid caffId, [FromBody] EditCaffDTO dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> EditCaffData([FromRoute] Guid caffId, [FromBody] EditCaffDto dto, CancellationToken cancellationToken)
         {
             var command = new EditCaffDataCommand(caffId, dto, HttpContext.User);
             return Ok(await _mediator.Send(command, cancellationToken));

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Webshop.BLL.Infrastructure.DataTransferObjects
 {
-    public class GetCaffsDTO
+    public class GetCaffsDto
     {
         public string? Search { get; set; }
 

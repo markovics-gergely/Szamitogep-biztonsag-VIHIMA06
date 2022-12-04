@@ -39,7 +39,7 @@ namespace Webshop.API.Extensions
             })
                 .AddDeveloperSigningCredential()        //This is for dev only scenarios when you don’t have a certificate to use.
                 .AddInMemoryPersistedGrants()
-                .AddInMemoryIdentityResources(GetIdentityResources(configuration))
+                .AddInMemoryIdentityResources(GetIdentityResources())
                 .AddInMemoryApiScopes(GetApiScopes(configuration))
                 .AddInMemoryClients(GetClients(configuration))
                 .AddInMemoryApiResources(new List<ApiResource>
@@ -54,7 +54,7 @@ namespace Webshop.API.Extensions
                 .AddResourceOwnerValidator<ResourceOwnerPasswordValidatorWithEmailAndUsername<ApplicationUser>>();
         }
 
-        private static IEnumerable<IdentityResource> GetIdentityResources(IConfiguration configuration)
+        private static IEnumerable<IdentityResource> GetIdentityResources()
         {
             return new List<IdentityResource>
             {

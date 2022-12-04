@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Webshop.BLL.Infrastructure.DataTransferObjects
 {
-    public class EditCaffDTO
+    public class EditCaffDto
     {
         public string? Title { get; set; }
 

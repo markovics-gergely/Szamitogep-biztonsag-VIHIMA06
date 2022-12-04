@@ -11,11 +11,11 @@ namespace Webshop.BLL.Infrastructure.Commands
 {
     public class UploadCaffCommand : IRequest<Guid>
     {
-        public UploadCaffDTO Dto { get; set; }
+        public UploadCaffDto Dto { get; set; }
 
         public ClaimsPrincipal User { get; set; }
 
-        public UploadCaffCommand(UploadCaffDTO dto, ClaimsPrincipal user)
+        public UploadCaffCommand(UploadCaffDto dto, ClaimsPrincipal user)
         {
             Dto = dto;
             User = user;

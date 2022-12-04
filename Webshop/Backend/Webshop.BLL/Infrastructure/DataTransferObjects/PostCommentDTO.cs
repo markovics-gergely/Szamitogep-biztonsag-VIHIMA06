@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Webshop.BLL.Infrastructure.DataTransferObjects
 {
-    public class PostCommentDTO
+    public class PostCommentDto
     {
         public string Text { get; set; } = string.Empty;
     }

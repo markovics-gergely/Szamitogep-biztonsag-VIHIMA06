@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Webshop.BLL.Utils
 {
-    public class RegexUtilities
+    public static class RegexUtilities
     {
         // Examines the domain part of the email and normalizes it.
         private static string DomainMapper(Match match)

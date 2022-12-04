@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Webshop.BLL.Infrastructure.DataTransferObjects
 {
-    public class UploadCaffDTO
+    public class UploadCaffDto
     {
         public string Title { get; set; } = string.Empty;
 

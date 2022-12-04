@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+  <ProjectName>Webshop.DAL</ProjectName>
+  <ProjectLanguage>C#</ProjectLanguage>
+  <ProjectType>Product</ProjectType>
+  <ProjectGuid>42d274e3-b10b-4d3d-93b6-c4a2654564a4</ProjectGuid>
+  <FullPath>E:\Desktop\Szamitogep_biztonsag\Szamitogep-biztonsag-VIHIMA06\Webshop\Backend\Webshop.DAL\Webshop.DAL.csproj</FullPath>
+  <IsExcluded>false</IsExcluded>
+  <AnalysisResults>
+    <AnalysisResult Id="FilesToAnalyze" Location="E:\Desktop\Szamitogep_biztonsag\Szamitogep-biztonsag-VIHIMA06\Webshop\Backend\.sonarqube\conf\0\FilesToAnalyze.txt" />
+  </AnalysisResults>
+  <AnalysisSettings>
+    <Property Name="sonar.cs.roslyn.reportFilePaths">E:\Desktop\Szamitogep_biztonsag\Szamitogep-biztonsag-VIHIMA06\Webshop\Backend\.sonarqube\out\0\Issues.json</Property>
+    <Property Name="sonar.cs.analyzer.projectOutPaths">E:\Desktop\Szamitogep_biztonsag\Szamitogep-biztonsag-VIHIMA06\Webshop\Backend\.sonarqube\out\0</Property>
+  </AnalysisSettings>
+  <Configuration>Debug</Configuration>
+  <Platform>AnyCPU</Platform>
+  <TargetFramework>net6.0</TargetFramework>
+</ProjectInfo>

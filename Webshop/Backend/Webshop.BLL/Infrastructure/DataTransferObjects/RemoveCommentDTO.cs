@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Webshop.BLL.Infrastructure.DataTransferObjects
 {
-    public class RemoveCommentDTO
+    public class RemoveCommentDto
     {
         public Guid CommentId { get; set; }
     }

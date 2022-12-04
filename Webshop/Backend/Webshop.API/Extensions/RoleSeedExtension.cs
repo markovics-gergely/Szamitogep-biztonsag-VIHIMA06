@@ -11,7 +11,7 @@ namespace Webshop.API.Extensions
     {
         private class UserRoleHelper
         {
-            public ApplicationUser UserDTO { get; set; }
+            public ApplicationUser? UserDTO { get; set; }
             public string Role { get; set; } = string.Empty;
         }
 
@@ -20,7 +20,7 @@ namespace Webshop.API.Extensions
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
-        public async static void AddRoleSeedExtensionExtensions(this IServiceProvider services, IConfiguration configuration)
+        public async static Task AddRoleSeedExtensionExtensions(this IServiceProvider services, IConfiguration configuration)
         {
             using (var scope = services.CreateScope())
             {
@@ -40,7 +40,7 @@ namespace Webshop.API.Extensions
                 var secretPW = configuration.GetValue<string>("AdminPass");
                 foreach (var userRole in userRoles)
                 {
-                    var alreadyExists = (await userManager.FindByNameAsync(userRole.UserDTO.UserName)) != null;
+                    var alreadyExists = (await userManager.FindByNameAsync(userRole.UserDTO?.UserName)) != null;
                     if (!alreadyExists)
                     {
                         IdentityResult checkAdd = await userManager.CreateAsync(userRole.UserDTO, secretPW);

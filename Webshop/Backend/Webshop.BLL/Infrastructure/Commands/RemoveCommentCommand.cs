@@ -13,11 +13,11 @@ namespace Webshop.BLL.Infrastructure.Commands
     {
         public Guid CaffId { get; set; }
 
-        public RemoveCommentDTO Dto { get; set; }
+        public RemoveCommentDto Dto { get; set; }
 
         public ClaimsPrincipal User { get; set; }
 
-        public RemoveCommentCommand(Guid caffId, ClaimsPrincipal user, RemoveCommentDTO dto)
+        public RemoveCommentCommand(Guid caffId, ClaimsPrincipal user, RemoveCommentDto dto)
         {
             CaffId = caffId;
             User = user;

@@ -9,10 +9,10 @@ namespace Webshop.BLL.MappingProfiles
     {
         public UserProfile()
         {
-            CreateMap<ApplicationUser, EditUserDTO>().ReverseMap();
-            CreateMap<ApplicationUser, EditUserRoleDTO>().ReverseMap();
+            CreateMap<ApplicationUser, EditUserDto>().ReverseMap();
+            CreateMap<ApplicationUser, EditUserRoleDto>().ReverseMap();
 
-            CreateMap<RegisterUserDTO, ApplicationUser>()
+            CreateMap<RegisterUserDto, ApplicationUser>()
                 .ForMember(u => u.UserName, opt => opt.MapFrom(a => a.UserName.Trim()))
                 .ForMember(u => u.FirstName, opt => opt.MapFrom(a => a.FirstName.Trim()))
                 .ForMember(u => u.LastName, opt => opt.MapFrom(a => a.LastName.Trim()))
@@ -27,7 +27,7 @@ namespace Webshop.BLL.MappingProfiles
             CreateMap<ApplicationUser, UserNameViewModel>()
                 .ReverseMap();
 
-            CreateMap<RegisterUserDTO, ApplicationUser>()
+            CreateMap<RegisterUserDto, ApplicationUser>()
                 .ForMember(u => u.UserName, opt => opt.MapFrom(a => a.UserName.Trim()))
                 .ForMember(u => u.FirstName, opt => opt.MapFrom(a => a.FirstName.Trim()))
                 .ForMember(u => u.LastName, opt => opt.MapFrom(a => a.LastName.Trim()))

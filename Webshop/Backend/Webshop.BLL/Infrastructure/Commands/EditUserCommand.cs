@@ -5,9 +5,9 @@ namespace Webshop.BLL.Infrastructure.Commands
 {
     public class EditUserCommand : IRequest<bool>
     {
-        public EditUserDTO DTO { get; set; }
+        public EditUserDto DTO { get; set; }
 
-        public EditUserCommand(EditUserDTO dto)
+        public EditUserCommand(EditUserDto dto)
         {
             DTO = dto;
         }

@@ -14,11 +14,11 @@ namespace Webshop.BLL.Infrastructure.Commands
     {
         public Guid CaffId { get; set; }
 
-        public EditCaffDTO Dto { get; set; }
+        public EditCaffDto Dto { get; set; }
 
         public ClaimsPrincipal User { get; set; }
 
-        public EditCaffDataCommand(Guid caffId, EditCaffDTO dto, ClaimsPrincipal user)
+        public EditCaffDataCommand(Guid caffId, EditCaffDto dto, ClaimsPrincipal user)
         {
             CaffId = caffId;
             Dto = dto;

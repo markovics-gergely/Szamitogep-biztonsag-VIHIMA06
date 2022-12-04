@@ -12,11 +12,11 @@ namespace Webshop.BLL.Infrastructure.Queries
 {
     public class GetBoughtCaffsQuery : IRequest<EnumerableWithTotalViewModel<CaffListViewModel>>
     {
-        public GetCaffsDTO Dto { get; set; }
+        public GetCaffsDto Dto { get; set; }
 
         public ClaimsPrincipal User { get; set; }
 
-        public GetBoughtCaffsQuery(GetCaffsDTO dto, ClaimsPrincipal user)
+        public GetBoughtCaffsQuery(GetCaffsDto dto, ClaimsPrincipal user)
         {
             Dto = dto;
             User = user;

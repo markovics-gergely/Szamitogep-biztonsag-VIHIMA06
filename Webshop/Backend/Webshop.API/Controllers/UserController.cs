@@ -101,7 +101,7 @@ namespace Webshop.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns>Success</returns>
         [HttpPut("edit")]
-        public async Task<ActionResult<bool>> EditUserAsync([FromBody] EditUserDTO userDTO, CancellationToken cancellationToken)
+        public async Task<ActionResult<bool>> EditUserAsync([FromBody] EditUserDto userDTO, CancellationToken cancellationToken)
         {
             var command = new EditUserCommand(userDTO);
             return await _mediator.Send(command, cancellationToken);
@@ -115,7 +115,7 @@ namespace Webshop.API.Controllers
         /// <returns>Success</returns>
         [AllowAnonymous]
         [HttpPost("registration")]
-        public async Task<ActionResult<bool>> RegisterUserAsync([FromBody] RegisterUserDTO userDTO, CancellationToken cancellationToken)
+        public async Task<ActionResult<bool>> RegisterUserAsync([FromBody] RegisterUserDto userDTO, CancellationToken cancellationToken)
         {
             var command = new CreateUserCommand(userDTO);
             return await _mediator.Send(command, cancellationToken);
@@ -129,7 +129,7 @@ namespace Webshop.API.Controllers
         /// <returns>Success</returns>
         [Authorize(Roles = RoleTypes.Admin)]
         [HttpPost("role/change")]
-        public async Task<ActionResult> EditUserRolesAsync([FromBody] EditUserRoleDTO userRoleDTO, CancellationToken cancellationToken)
+        public async Task<ActionResult> EditUserRolesAsync([FromBody] EditUserRoleDto userRoleDTO, CancellationToken cancellationToken)
         {
             var command = new EditUserRoleCommand(userRoleDTO);
             await _mediator.Send(command, cancellationToken);
@@ -137,7 +137,7 @@ namespace Webshop.API.Controllers
         }
 
         [HttpGet("inventory")]
-        public async Task<IActionResult> GetUserInventory([FromQuery] GetCaffsDTO caffsDTO, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetUserInventory([FromQuery] GetCaffsDto caffsDTO, CancellationToken cancellationToken)
         {
             var query = new GetBoughtCaffsQuery(caffsDTO, User);
             return Ok(await _mediator.Send(query, cancellationToken));

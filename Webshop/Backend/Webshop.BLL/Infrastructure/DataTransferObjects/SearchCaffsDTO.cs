@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Webshop.BLL.Infrastructure.DataTransferObjects
 {
-    public class SearchCaffsDTO
+    public class SearchCaffsDto
     {
         public string Term { get; set; } = string.Empty;
     }

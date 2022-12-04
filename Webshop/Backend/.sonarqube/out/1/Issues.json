@@ -1,0 +1,482 @@
+{
+  "$schema": "http://json.schemastore.org/sarif-1.0.0",
+  "version": "1.0.0",
+  "runs": [
+    {
+      "tool": {
+        "name": "Microsoft (R) Visual C# Compiler",
+        "version": "4.4.0.0",
+        "fileVersion": "4.4.0-4.22520.11 (9e075f03)",
+        "semanticVersion": "4.4.0",
+        "language": "hu-HU"
+      },
+      "results": [
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Caff' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Infrastructure/DataTransferObjects/UploadCaffDto.cs",
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 26,
+                  "endLine": 17,
+                  "endColumn": 30
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Infrastructure/DataTransferObjects/UploadCaffDto.cs",
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 26,
+                  "endLine": 17,
+                  "endColumn": 30
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8602",
+          "level": "warning",
+          "message": "Dereference of a possibly null reference.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Stores/Implementations/UserStore.cs",
+                "region": {
+                  "startLine": 107,
+                  "startColumn": 40,
+                  "endLine": 107,
+                  "endColumn": 46
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S3925",
+          "level": "warning",
+          "message": "Update this implementation of 'ISerializable' to conform to the recommended serialization pattern.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Exceptions/InvalidParameterException.cs",
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 18,
+                  "endLine": 3,
+                  "endColumn": 43
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Exceptions/InvalidParameterException.cs",
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 12,
+                  "endLine": 3,
+                  "endColumn": 17
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Exceptions/InvalidParameterException.cs",
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 12,
+                  "endLine": 3,
+                  "endColumn": 17
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": "Add 'System.SerializableAttribute' attribute on 'InvalidParameterException' because it implements 'ISerializable'.",
+              "1": "Add a 'protected' constructor 'InvalidParameterException(SerializationInfo, StreamingContext)'."
+            }
+          }
+        },
+        {
+          "ruleId": "S3925",
+          "level": "warning",
+          "message": "Update this implementation of 'ISerializable' to conform to the recommended serialization pattern.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Exceptions/ValidationErrorException.cs",
+                "region": {
+                  "startLine": 9,
+                  "startColumn": 18,
+                  "endLine": 9,
+                  "endColumn": 42
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Exceptions/ValidationErrorException.cs",
+                "region": {
+                  "startLine": 9,
+                  "startColumn": 12,
+                  "endLine": 9,
+                  "endColumn": 17
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Exceptions/ValidationErrorException.cs",
+                "region": {
+                  "startLine": 9,
+                  "startColumn": 12,
+                  "endLine": 9,
+                  "endColumn": 17
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": "Add 'System.SerializableAttribute' attribute on 'ValidationErrorException' because it implements 'ISerializable'.",
+              "1": "Add a 'protected' constructor 'ValidationErrorException(SerializationInfo, StreamingContext)'."
+            }
+          }
+        },
+        {
+          "ruleId": "S3925",
+          "level": "warning",
+          "message": "Update this implementation of 'ISerializable' to conform to the recommended serialization pattern.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Exceptions/EntityNotFoundException.cs",
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 18,
+                  "endLine": 3,
+                  "endColumn": 41
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Exceptions/EntityNotFoundException.cs",
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 12,
+                  "endLine": 3,
+                  "endColumn": 17
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Exceptions/EntityNotFoundException.cs",
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 12,
+                  "endLine": 3,
+                  "endColumn": 17
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": "Add 'System.SerializableAttribute' attribute on 'EntityNotFoundException' because it implements 'ISerializable'.",
+              "1": "Add a 'protected' constructor 'EntityNotFoundException(SerializationInfo, StreamingContext)'."
+            }
+          }
+        },
+        {
+          "ruleId": "S1450",
+          "level": "warning",
+          "message": "Remove the field '_validator' and declare it as a local variable in the relevant methods.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Infrastructure/CaffQueryHandler.cs",
+                "region": {
+                  "startLine": 31,
+                  "startColumn": 29,
+                  "endLine": 31,
+                  "endColumn": 39
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S4487",
+          "level": "warning",
+          "message": "Remove this unread private field '_roleManager' or refactor the code to use its value.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Infrastructure/UserCommandHandler.cs",
+                "region": {
+                  "startLine": 19,
+                  "startColumn": 55,
+                  "endLine": 19,
+                  "endColumn": 67
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S4487",
+          "level": "warning",
+          "message": "Remove this unread private field '_userManager' or refactor the code to use its value.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Infrastructure/UserCommandHandler.cs",
+                "region": {
+                  "startLine": 20,
+                  "startColumn": 55,
+                  "endLine": 20,
+                  "endColumn": 67
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S4487",
+          "level": "warning",
+          "message": "Remove this unread private field '_mapper' or refactor the code to use its value.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Infrastructure/CaffCommandHandler.cs",
+                "region": {
+                  "startLine": 43,
+                  "startColumn": 34,
+                  "endLine": 43,
+                  "endColumn": 41
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1450",
+          "level": "warning",
+          "message": "Remove the field '_validator' and declare it as a local variable in the relevant methods.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Infrastructure/CaffCommandHandler.cs",
+                "region": {
+                  "startLine": 44,
+                  "startColumn": 29,
+                  "endLine": 44,
+                  "endColumn": 39
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CA2101",
+          "level": "note",
+          "message": "Specify marshaling for P/Invoke string arguments",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Infrastructure/CaffCommandHandler.cs",
+                "region": {
+                  "startLine": 46,
+                  "startColumn": 10,
+                  "endLine": 46,
+                  "endColumn": 61
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Forward the 'cancellationToken' parameter to the 'FirstOrDefaultAsync' method or pass in 'CancellationToken.None' explicitly to indicate intentionally not propagating the token",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///E:/Desktop/Szamitogep_biztonsag/Szamitogep-biztonsag-VIHIMA06/Webshop/Backend/Webshop.BLL/Stores/Implementations/UserStore.cs",
+                "region": {
+                  "startLine": 26,
+                  "startColumn": 30,
+                  "endLine": 28,
+                  "endColumn": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": "cancellationToken",
+              "ShouldFix": "1"
+            }
+          }
+        }
+      ],
+      "rules": {
+        "CA2016": {
+          "id": "CA2016",
+          "shortDescription": "Forward the 'CancellationToken' parameter to methods",
+          "fullDescription": "Forward the 'CancellationToken' parameter to methods to ensure the operation cancellation notifications gets properly propagated, or pass in 'CancellationToken.None' explicitly to indicate intentionally not propagating the token.",
+          "defaultLevel": "note",
+          "helpUri": "https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2016",
+          "properties": {
+            "category": "Reliability",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Telemetry",
+              "EnabledRuleInAggressiveMode"
+            ]
+          }
+        },
+        "CA2101": {
+          "id": "CA2101",
+          "shortDescription": "Specify marshaling for P/Invoke string arguments",
+          "fullDescription": "A platform invoke member allows partially trusted callers, has a string parameter, and does not explicitly marshal the string. This can cause a potential security vulnerability.",
+          "defaultLevel": "note",
+          "helpUri": "https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2101",
+          "properties": {
+            "category": "Globalization",
+            "isEnabledByDefault": true,
+            "tags": [
+              "PortedFromFxCop",
+              "Telemetry",
+              "EnabledRuleInAggressiveMode"
+            ]
+          }
+        },
+        "CS8602": {
+          "id": "CS8602",
+          "shortDescription": "Dereference of a possibly null reference.",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8602)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "CS8618": {
+          "id": "CS8618",
+          "shortDescription": "Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8618)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "S1450": {
+          "id": "S1450",
+          "shortDescription": "Private fields only used as local variables in methods should become local variables",
+          "fullDescription": "When the value of a private field is always assigned to in a class' methods before being read, then it is not being used to store class information. Therefore, it should become a local variable in the relevant methods to prevent any misunderstanding.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-1450",
+          "properties": {
+            "category": "Minor Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S3925": {
+          "id": "S3925",
+          "shortDescription": "\"ISerializable\" should be implemented correctly",
+          "fullDescription": "The ISerializable interface is the mechanism to control the type serialization process. If not implemented correctly this could result in an invalid serialization and hard to detect bugs.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-3925",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S4487": {
+          "id": "S4487",
+          "shortDescription": "Unread \"private\" fields should be removed",
+          "fullDescription": "Private fields only used to store values without reading them later is a case of dead store. So changing the value of such field is useless and most probably indicates a serious error in the code.",
+          "defaultLevel": "note",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-4487",
+          "properties": {
+            "category": "Critical Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "TestSourceScope",
+              "SonarWay",
+              "Unnecessary"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
