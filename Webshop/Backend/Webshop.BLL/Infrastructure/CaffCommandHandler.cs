@@ -123,9 +123,10 @@ namespace Webshop.BLL.Infrastructure
             string caffPath = Path.ChangeExtension(Path.Combine(_webshopConfiguration.GetStaticFilePhysicalPath(),
                 _webshopConfiguration.GetCaffsSubdirectory(), Path.GetRandomFileName()), ".caff");
 
-            if (!Directory.Exists(caffPath))
+            string path = Path.GetDirectoryName(caffPath)!;
+            if (!Directory.Exists(path))
             {
-                Directory.CreateDirectory(caffPath);
+                Directory.CreateDirectory(path);
             }
 
             using (var stream = File.Create(caffPath))
@@ -135,6 +136,11 @@ namespace Webshop.BLL.Infrastructure
 
             int ciffCount = 0;
             string metaPath = $"{_webshopConfiguration.GetStaticFilePhysicalPath()}\\{_webshopConfiguration.GetCaffMetaSubdirectory()}\\";
+            path = Path.GetDirectoryName(metaPath)!;
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
             var result = readCaff(new StringBuilder(Path.GetDirectoryName(caffPath)), new StringBuilder(Path.GetFileNameWithoutExtension(caffPath)), new StringBuilder(metaPath), ref ciffCount);
             if (result != 0)
             {
