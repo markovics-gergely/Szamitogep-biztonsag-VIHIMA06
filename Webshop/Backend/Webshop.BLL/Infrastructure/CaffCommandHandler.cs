@@ -123,6 +123,11 @@ namespace Webshop.BLL.Infrastructure
             string caffPath = Path.ChangeExtension(Path.Combine(_webshopConfiguration.GetStaticFilePhysicalPath(),
                 _webshopConfiguration.GetCaffsSubdirectory(), Path.GetRandomFileName()), ".caff");
 
+            if (!Directory.Exists(caffPath))
+            {
+                Directory.CreateDirectory(caffPath);
+            }
+
             using (var stream = File.Create(caffPath))
             {
                 await request.Dto.Caff.CopyToAsync(stream, cancellationToken);

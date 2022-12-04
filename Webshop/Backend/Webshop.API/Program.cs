@@ -11,7 +11,11 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    WebRootPath = "wwwroot"
+});
 ConfigurationManager configuration = builder.Configuration;
 
 builder.Services.AddDbContext<WebshopDbContext>(options =>

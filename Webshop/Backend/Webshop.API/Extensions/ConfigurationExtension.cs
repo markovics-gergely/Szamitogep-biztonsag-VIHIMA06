@@ -8,7 +8,7 @@ namespace Webshop.API.Extensions
     {
         public static void AddConfigurations(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<WebshopConfiguration>(configuration.GetSection("GalleryApplication"));
+            services.Configure<WebshopConfiguration>(configuration.GetSection("WebshopApplication"));
             services.AddTransient<IWebshopConfigurationService, WebshopConfigurationService>();
         }
     }
