@@ -137,7 +137,8 @@ export class BrowseComponent implements OnInit {
           .subscribe((result) => {
             this.router.navigate(['browse', result]);
             this.snackService.openSnackBar('Caff successfully created!', 'OK');
-          })
+          },
+          () => this.snackService.openSnackBar('Error adding caff!', 'OK'))
           .add(() => (this.loadingService.isLoading = false));
       }
     });
@@ -158,7 +159,8 @@ export class BrowseComponent implements OnInit {
           .subscribe(() => {
             caff.title = result.title;
             this.snackService.openSnackBar('Caff successfully edited!', 'OK');
-          })
+          },
+          () => this.snackService.openSnackBar('Error editing caff!', 'OK'))
           .add(() => (this.loadingService.isLoading = false));
       }
     });
